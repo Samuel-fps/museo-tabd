@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  # Servicio de la base de datos Oracle
+  oracle-db:
+    build:
+      context: ./database 
+      dockerfile: Dockerfile
+    container_name: oracle-database
+    restart: unless-stopped
+    ports:
+      - "31521:1521"  # Puerto de Oracle DB para no entrar en conflicto con otros servicios
+      - "5500:5500"    # Puerto de Oracle SQL Developer
+    environment:
+      ORACLE_PASSWORD: ${ORACLE_PASSWORD}  # Contraseña de la base de datos
+      ORACLE_SID: ${ORACLE_SID:-XEPDB1}  # SID de la base de datos
+    volumes:
+      - oracle-data:/opt/oracle/oradata  # Volumen persistente para datos
+
+  # Servicio para el Frontend
+
+volumes:
+  oracle-data:
