@@ -1,5 +1,7 @@
 # Documentación
 
+## Enlaces documentación
+
 Enlace a la documentación google docs:
 
 <https://docs.google.com/document/d/17Z-Yq4QoVhbS-JzMEXUA8WNU_7ed_3M6sKpxKyomAXE/edit?tab=t.0#heading=h.mgqnarfdh6fj>
@@ -15,3 +17,17 @@ Enlace a el diagrama:
 Enlace a Mockups:
 
 <https://balsamiq.cloud/sy1lqha/pmah21v/r37A4>
+
+## Diseño
+
+### Diagrama conceptual
+
+![Diagrama conceptual](Diagramas/Diagrama_Conceptual.jpeg)
+
+### Diagrama lógico
+
+![Diagrama lógico](Diagramas/Diagrama_Logico.jpeg)
+
+### Diagrama físico
+
+![Diagrama físico](Diagramas/Diagrama_Fisico.jpeg)
