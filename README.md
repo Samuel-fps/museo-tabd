@@ -17,8 +17,8 @@ Este proyecto contiene un entorno de desarrollo basado en Docker con Oracle Data
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/tu-usuario/tu-repo.git
-cd tu-repo
+git clone https://github.com/Samuel-fps/museo-tabd
+cd museo-tabd
 ```
 
 ### 2. Configurar variables de entorno
