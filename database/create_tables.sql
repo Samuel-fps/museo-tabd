@@ -31,7 +31,7 @@ CREATE TABLE OBRA_DE_ARTE (
     autor                VARCHAR2(100),
     fecha_creacion       DATE,
     fecha_adquisicion    DATE,
-    tipo VARCHAR2(50) CHECK (tipo IN ('Cuadro', 'Escultura', 'Fotografía', 'Alfarería'))
+    tipo VARCHAR2(50) CHECK (tipo IN ('Cuadro', 'Escultura', 'Fotografía', 'Alfarería')),
     estilo_artistico     VARCHAR2(100),
     estilo_historico     VARCHAR2(100),
     descripcion          VARCHAR2(500),
@@ -61,11 +61,11 @@ CREATE TABLE ACTIVIDADES (
     codigo_actividad NUMBER PRIMARY KEY,
     nombre VARCHAR2(100) NOT NULL,
     descripcion TEXT NOT NULL,
-    fecha_inicio DATE NOT NULL
-    fecha_fin DATE DEFAULT NOT NULL
+    fecha_inicio DATE NOT NULL,
+    fecha_fin DATE DEFAULT NOT NULL,
     publico_objetivo VARCHAR2(100) NOT NULL,
     cod_empleado NUMBER NOT NULL,  
-    cod_externo NUMBER NOT NULL,  
+    cod_externo NUMBER NOT NULL 
 );
 
 
@@ -93,7 +93,7 @@ CREATE TABLE EXTERNOS(
     nombre VARCHAR2(100) NOT NULL,
     telefono_contacto VARCHAR2(20) NOT NULL,
     correo_electronico VARCHAR2(100) NOT NULL,
-    cod_actividad NUMBER NOT NULL,
+    cod_actividad NUMBER NOT NULL
 );
 
 
@@ -111,7 +111,7 @@ CREATE TABLE VISITANTES (
 CREATE TABLE ENTRADAS(
     codigo_entrada NUMBER PRIMARY KEY,
     precio DECIMAL(10, 2) NOT NULL,
-    fecha DATE NOT NULL
+    fecha DATE NOT NULL,
     cod_cliente NUMBER NOT NULL,
     cod_venta NUMBER NOT NULL,
     tipo VARCHAR2(20)  CHECK (tipo IN ('Físico', 'Online')),
