@@ -1,3 +1,5 @@
+
+-- trigger para evitar eliminar autores que tengan obras registradas
 CREATE OR REPLACE TRIGGER no_delete_autor_con_obras
 BEFORE DELETE ON AUTORES
 FOR EACH ROW
@@ -14,6 +16,7 @@ BEGIN
 END;
 /
 
+-- trigger para evitar eliminar trapas por error
 CREATE OR REPLACE TRIGGER no_drop_table
 BEFORE DROP ON DATABASE
 BEGIN
