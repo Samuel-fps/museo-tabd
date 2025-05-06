@@ -22,6 +22,4 @@ BEFORE DROP ON DATABASE
 BEGIN
     RAISE_APPLICATION_ERROR(-20000, 'No está permitido eliminar tablas en esta base de datos.');
 END;
-
-
 /
