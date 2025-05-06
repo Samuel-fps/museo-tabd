@@ -1,5 +1,13 @@
 -- Tabla de empleados
 CREATE TABLE EMPLEADOS OF TipoEmpleado (
+    cod_empleado       NUMBER NOT NULL,
+    nombre             VARCHAR2(100) NOT NULL,
+    fechaNacimiento    DATE NOT NULL,
+    tlfContacto        ListaTelefonos NOT NULL,
+    correoElectronico  VARCHAR2(100),
+    cod_Contrato       NUMBER NOT NULL,
+    cod_departamento   NUMBER NOT NULL,
+
     CONSTRAINT pk_empleado 
         PRIMARY KEY (cod_empleado),
     CONSTRAINT fk_contrato 
@@ -9,7 +17,10 @@ CREATE TABLE EMPLEADOS OF TipoEmpleado (
 );
 
 -- Tabla de departamentos
-CREATE TABLE DEPARTAMENTOS(
+CREATE TABLE DEPARTAMENTOS OF TipoDepartamento (
+    cod_departamento   NUMBER NOT NULL,
+    nombre             VARCHAR2(100) NOT NULL,
+
     CONSTRAINT pk_departamento 
         PRIMARY KEY (cod_departamento),
      CONSTRAINT fk_encargado
@@ -17,19 +28,33 @@ CREATE TABLE DEPARTAMENTOS(
 );
 
 -- Tabla de roles
-CREATE TABLE ROLES (
+CREATE TABLE ROLES OF TipoRol (
+    cod_rol            NUMBER NOT NULL,
+    nombre             VARCHAR2(50) NOT NULL,
+
     CONSTRAINT pk_roles 
         PRIMARY KEY (cod_rol)
 );
 
 -- Tabla de contratos
-CREATE TABLE CONTRATOS (
+CREATE TABLE CONTRATOS OF TipoContrato (
+    cod_contrato       NUMBER NOT NULL,
+    fecha_ini          DATE NOT NULL,
+    fecha_fin          DATE DEFAULT NULL,
+    sueldo             NUMBER(10, 2) NOT NULL,
+    jornada_laboral    VARCHAR2(50) NOT NULL,
+    estado             VARCHAR2(20) NOT NULL
+
     CONSTRAINT pk_contrato 
         PRIMARY KEY (cod_contrato)
 );
 
 -- Tabla de ventas
-CREATE TABLE VENTAS (
+CREATE TABLE VENTAS OF TipoVenta (
+    cod_venta          NUMBER NOT NULL,
+    fecha              DATE NOT NULL,
+    cod_empleado       NUMBER NOT NULL,
+
     CONSTRAINT pk_venta
         PRIMARY KEY (cod_venta),
     CONSTRAINT fk_empleado 
@@ -38,6 +63,13 @@ CREATE TABLE VENTAS (
 
 -- Tabla de entradas
 CREATE TABLE ENTRADAS OF TipoEntrada (
+    cod_entrada        NUMBER NOT NULL,
+    precio             NUMBER(10, 2) NOT NULL,
+    fecha              DATE NOT NULL,
+    cod_cliente        NUMBER NOT NULL,
+    cod_venta          NUMBER NOT NULL,
+    tipo               VARCHAR2(20) NOT NULL
+
     CONSTRAINT pk_entradas 
         PRIMARY KEY (cod_entrada),
     CONSTRAINT fk_cliente
@@ -48,7 +80,13 @@ CREATE TABLE ENTRADAS OF TipoEntrada (
 );
 
 -- Tabla de clientes
-CREATE TABLE CLIENTES (
+CREATE TABLE CLIENTES OF TipoCliente (
+    cod_cliente        NUMBER NOT NULL,
+    nombre             VARCHAR2(100) NOT NULL,
+    apellidos          VARCHAR2(100),
+    telefonos          ListaTelefonos NOT NULL,
+    email              VARCHAR2(100) NOT NULL,
+
     CONSTRAINT pk_cliente
         PRIMARY KEY (cod_cliente),
     CONSTRAINT fk_entrada
@@ -56,19 +94,31 @@ CREATE TABLE CLIENTES (
 );
 
 -- Tabla de externos
-CREATE TABLE EXTERNOS (
+CREATE TABLE EXTERNOS OF TipoExterno(
+    cod_externo        NUMBER NOT NULL,
+    nombre             VARCHAR2(100) NOT NULL,
+    telefonos          ListaTelefonos NOT NULL, 
+    cod_actividad      NUMBER NOT NULL
+
     CONSTRAINT pk_externo 
         PRIMARY KEY (cod_externo)
 );
 
 -- Tabla de actividades
 CREATE TABLE ACTIVIDADES OF TipoActividad (
+    cod_actividad   NUMBER NOT NULL,
+    nombre          VARCHAR2(100) NOT NULL,
+    fecha_inicio    DATE NOT NULL,
+    fecha_fin       DATE NOT NULL,
+
     CONSTRAINT pk_actividad 
         PRIMARY KEY (cod_actividad)
 );
 
 -- Tabla de visitas
 CREATE TABLE VISITAS OF TipoVisita (
+    cupo_maximo        NUMBER NOT NULL,
+
     CONSTRAINT tipo CHECK (tipo IN ('Guiada', 'Autoguiada', 'Virtual')),
     CONSTRAINT fk_actividades 
         FOREIGN KEY (cod_actividad) REFERENCES ACTIVIDADES(cod_actividad)
@@ -76,17 +126,28 @@ CREATE TABLE VISITAS OF TipoVisita (
 
 -- Tabla de exposiciones
 CREATE TABLE EXPOSICIONES OF TipoExposicion (
+    cod_sala           NUMBER NOT NULL,
+
     CONSTRAINT chk_tipo_expo CHECK (tipo IN ('Online', 'Física'))
 );
 
 -- Tabla de salas
-CREATE TABLE SALAS (
+CREATE TABLE SALAS OF TipoSala (
+    cod_sala           NUMBER NOT NULL,
+    nombre             VARCHAR2(100) NOT NULL,
+
     CONSTRAINT pk_sala 
         PRIMARY KEY (cod_sala)
 );
 
 -- Tabla de obras de arte
 CREATE TABLE OBRAS OF TipoObra (
+    cod_obra           NUMBER NOT NULL,
+    nombre             VARCHAR2(100) NOT NULL,
+    tipo               VARCHAR2(50) NOT NULL,
+    cod_sala           NUMBER NOT NULL,
+    cod_autor          NUMBER NOT NULL
+
     CONSTRAINT pk_obra
         PRIMARY KEY (cod_obra),
 
@@ -103,7 +164,11 @@ CREATE TABLE OBRAS OF TipoObra (
 );
 
 -- Tabla de autores
-CREATE TABLE AUTORES OF TipoAutores (
+CREATE TABLE AUTORES OF TipoAutor (
+    cod_autor          NUMBER NOT NULL,
+    nombre             VARCHAR2(100) NOT NULL,
+    num_obras          INTEGER DEFAULT 0,
+
     CONSTRAINT pk_autor 
         PRIMARY KEY (cod_autor)
 );
@@ -112,8 +177,8 @@ CREATE TABLE AUTORES OF TipoAutores (
 
 -- Empleado_Actividad N-M
 CREATE TABLE EMPLEADOS_ACTIVIDADES (
-    cod_empleado    NUMBER,
-    cod_actividad   NUMBER,
+    cod_empleado    NUMBER NOT NULL,
+    cod_actividad   NUMBER  NOT NULL,
     fecha_asignacion DATE DEFAULT SYSDATE,
     PRIMARY KEY (cod_empleado, cod_actividad),
     FOREIGN KEY (cod_empleado) REFERENCES EMPLEADOS(cod_empleado),
@@ -122,8 +187,8 @@ CREATE TABLE EMPLEADOS_ACTIVIDADES (
 
 -- Sala_Actividad N-M
 CREATE TABLE SALAS_EXPOSICIONES (
-    cod_sala        NUMBER,
-    cod_actividad   NUMBER,
+    cod_sala        NUMBER NOT NULL,
+    cod_actividad   NUMBER NOT NULL,
     PRIMARY KEY (cod_sala, cod_actividad),
     FOREIGN KEY (cod_sala) REFERENCES SALAS(cod_sala),
     FOREIGN KEY (cod_actividad) REFERENCES EXPOSICIONES(cod_actividad)
@@ -131,8 +196,8 @@ CREATE TABLE SALAS_EXPOSICIONES (
 
 -- Rol_Empleado N-M
 CREATE TABLE ROLES_EMPLEADOS (
-    cod_rol         NUMBER,
-    cod_empleado    NUMBER,
+    cod_rol         NUMBER NOT NULL,
+    cod_empleado    NUMBER NOT NULL,
     PRIMARY KEY (cod_rol, cod_empleado),
     FOREIGN KEY (cod_rol) REFERENCES ROLES(cod_rol),
     FOREIGN KEY (cod_empleado) REFERENCES EMPLEADOS(cod_empleado)
@@ -141,8 +206,8 @@ CREATE TABLE ROLES_EMPLEADOS (
 
 -- Actividad_Externo N-M
 CREATE TABLE ACTIVIDADES_EXTERNOS (
-    cod_actividad   NUMBER,
-    cod_externo     NUMBER,
+    cod_actividad   NUMBER NOT NULL,
+    cod_externo     NUMBER NOT NULL,
     fecha           DATE DEFAULT SYSDATE,
     horas           NUMBER,
     descripcion     VARCHAR2(255),
