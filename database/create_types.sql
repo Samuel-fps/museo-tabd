@@ -10,9 +10,9 @@ CREATE OR REPLACE Type TipoDireccion AS OBJECT (
 CREATE OR REPLACE TYPE TipoEmpleado AS OBJECT (
     cod_empleado       NUMBER,
     nombre             VARCHAR2(100),
-    fechaNacimiento    DATE,
-    tlfContacto        TipoListaTelefonos,
-    correoElectronico  VARCHAR2(100),
+    fecha_nacimiento   DATE,
+    telefonos        TipoListaTelefonos,
+    email              VARCHAR2(100),
     Direccion
     cod_Contrato        NUMBER,
     cod_departamento   NUMBER
