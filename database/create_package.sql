@@ -25,3 +25,13 @@ CREATE OR REPLACE PACKAGE pkg_ventas IS
     FUNCTION obtener_detalle_venta(codigo_venta IN NUMBER) RETURN SYS_REFCURSOR;
     FUNCTION obtener_total_ventas_por_mes(mes IN NUMBER, anio IN NUMBER) RETURN NUMBER;
 END create_package;
+
+--Paquete Autor
+CREATE OR REPLACE PACKAGE pkg_autor IS
+  FUNCTION total_obras_autor(v_autor IN NUMBER) RETURN NUMBER;
+END create_package;
+
+--Paquete Visitas
+CREATE OR REPLACE PACKAGE pkg_visitas IS
+  FUNCTION cantidad_visitas_por_mes(v_mes IN NUMBER, v_anno IN NUMBER) RETURN NUMBER;
+END create_package;
