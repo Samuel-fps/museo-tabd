@@ -3,8 +3,8 @@ CREATE TABLE EMPLEADOS OF TipoEmpleado (
     cod_empleado       NUMBER NOT NULL,
     nombre             VARCHAR2(100) NOT NULL,
     fechaNacimiento    DATE NOT NULL,
-    tlfContacto        ListaTelefonos NOT NULL,
-    correoElectronico  VARCHAR2(100),
+    telefonos        ListaTelefonos NOT NULL,
+    email  VARCHAR2(100),
     cod_Contrato       NUMBER NOT NULL,
     cod_departamento   NUMBER NOT NULL,
 
