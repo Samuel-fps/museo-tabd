@@ -1,13 +1,19 @@
-CREATE OR REPLACE Type ListaTelefonos AS VARRAY(10) OF VARCHAR2(20);
-/
+CREATE OR REPLACE Type TipoListaTelefonos AS VARRAY(10) OF VARCHAR2(20);
+CREATE OR REPLACE Type TipoDireccion AS OBJECT (
+    calle              VARCHAR2(100),
+    ciudad             VARCHAR2(50),
+    provincia          VARCHAR2(50),
+    codigo_postal      VARCHAR2(10)
+);
 
 -- Tipo Empleado
 CREATE OR REPLACE TYPE TipoEmpleado AS OBJECT (
     cod_empleado       NUMBER,
     nombre             VARCHAR2(100),
     fechaNacimiento    DATE,
-    tlfContacto        ListaTelefonos,
+    tlfContacto        TipoListaTelefonos,
     correoElectronico  VARCHAR2(100),
+    Direccion
     cod_Contrato        NUMBER,
     cod_departamento   NUMBER
 );
@@ -60,7 +66,7 @@ CREATE OR REPLACE TYPE TipoCliente AS OBJECT (
     nombre             VARCHAR2(100),
     apellidos          VARCHAR2(100),
     fecha_nacimiento   DATE,
-    telefonos          ListaTelefonos,
+    telefonos          TipoListaTelefonos,
     email              VARCHAR2(100),
     cod_entrada        NUMBER
 );
@@ -69,7 +75,7 @@ CREATE OR REPLACE TYPE TipoCliente AS OBJECT (
 CREATE OR REPLACE TYPE TipoExterno AS OBJECT (
     cod_externo        NUMBER,
     nombre             VARCHAR2(100),
-    telefonos          ListaTelefonos, 
+    telefonos          TipoListaTelefonos, 
     email              VARCHAR2(100),
     cod_actividad      NUMBER
 );
