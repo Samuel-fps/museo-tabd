@@ -70,13 +70,13 @@ CREATE TABLE VENTAS OF TipoVenta (
 -- Tabla de entradas
 CREATE TABLE ENTRADAS OF TipoEntrada (
     cod_entrada        NUMBER NOT NULL,
-    precio             NUMBER(10, 2) NOT NULL,
+    precio             NUMBER(7, 2) NOT NULL,
     fecha              DATE NOT NULL,
+    tipo               VARCHAR2(20) NOT NULL,
     cod_cliente        NUMBER NOT NULL,
     cod_venta          NUMBER NOT NULL,
-    tipo               VARCHAR2(20) NOT NULL
     
-    CONSTRAINT chk_tipo CHECK (tipo IN ('Física', 'Online'))
+    CONSTRAINT chk_tipo CHECK (tipo IN ('Física', 'Online')),
     CONSTRAINT chk_precio CHECK (precio > 0),
     CONSTRAINT chk_fecha CHECK (fecha >= TRUNC(SYSDATE)),
 
@@ -103,8 +103,6 @@ CREATE TABLE CLIENTES OF TipoCliente (
 
     CONSTRAINT pk_cliente
         PRIMARY KEY (cod_cliente),
-    CONSTRAINT fk_entrada
-        FOREIGN KEY (cod_entrada) REFERENCES ENTRADAS(cod_entrada)
 );
 
 -- Tabla de externos
@@ -113,7 +111,7 @@ CREATE TABLE EXTERNOS (
     nombre             VARCHAR2(100) NOT NULL,
     telefonos          ListaTelefonos NOT NULL, 
     email              VARCHAR2(100) NOT NULL,
-    cod_actividad      NUMBER NOT NULL
+    cod_actividad      NUMBER NOT NULL,
 
     CONSTRAINT pk_externo 
         PRIMARY KEY (cod_externo)
@@ -138,16 +136,17 @@ CREATE TABLE VISITAS OF TipoVisita (
     fecha_fin       DATE NOT NULL,
     cupo_maximo        NUMBER,
     idioma             VARCHAR2(50),
-    tipo               VARCHAR2(20),
+    tipo_visita               VARCHAR2(20),
+    cod_entrada        NUMBER NOT NULL,
 
-    CONSTRAINT tipo CHECK (tipo IN ('Guiada', 'Autoguiada', 'Virtual')),
+    CONSTRAINT tipo CHECK (tipo_visita IN ('Guiada', 'Autoguiada', 'Virtual')),
     CONSTRAINT chk_fecha_visita CHECK (fecha_inicio <= fecha_fin),
-    CONSTRAINT chk_cupo CHECK (cupo_maximo => 0),
+    CONSTRAINT chk_cupo CHECK (cupo_maximo >= 0),
 
     CONSTRAINT pk_visita 
         PRIMARY KEY (cod_actividad),
     CONSTRAINT fk_cliente
-        FOREIGN KEY (cod_cliente) REFERENCES CLIENTES(cod_cliente),
+        FOREIGN KEY (cod_entrada) REFERENCES CLIENTES(cod_entrada),
 );
 
 -- Tabla de exposiciones
@@ -158,14 +157,14 @@ CREATE TABLE EXPOSICIONES OF TipoExposicion (
     fecha_fin       DATE NOT NULL,
     tematica           VARCHAR2(100),
     numero_obras       NUMBER,
-    tipo               VARCHAR2(20)
+    tipo_exposicion    VARCHAR2(20),
     cod_sala           NUMBER NOT NULL,
 
-    CONSTRAINT chk_tipo_expo CHECK (tipo IN ('Online', 'Física')),
+    CONSTRAINT chk_tipo_expo CHECK (tipo_exposicion IN ('Online', 'Física')),
     CONSTRAINT chk_fecha_expo CHECK (fecha_inicio <= fecha_fin),
     CONSTRAINT chk_numero_obras CHECK (numero_obras >= 0),
 
-    CONSTRAINT pk_Exposicion 
+    CONSTRAINT pk_exposicion 
         PRIMARY KEY (cod_actividad),
     CONSTRAINT fk_sala 
         FOREIGN KEY (cod_sala) REFERENCES SALAS(cod_sala),
@@ -194,7 +193,7 @@ CREATE TABLE OBRAS (
     est_historico      VARCHAR2(100),
     imagen             BLOB,
     cod_sala           NUMBER NOT NULL,
-    cod_autor          NUMBER NOT NULL
+    cod_autor          NUMBER NOT NULL,
 
     CONSTRAINT chk_tipo_obra CHECK (tipo IN ('Cuadro', 'Escultura', 'Fotografía', 'Alfarería')),
     CONSTRAINT chk_fecha_creacion CHECK (fecha_creacion <= TRUNC(SYSDATE)),
@@ -210,9 +209,7 @@ CREATE TABLE OBRAS (
  
     CONSTRAINT fk_AUTOR 
         FOREIGN KEY (cod_autor)
-        REFERENCES AUTORES(cod_autor),
-
-
+        REFERENCES AUTORES(cod_autor)
 );
 
 -- Tabla de autores
@@ -236,6 +233,7 @@ CREATE TABLE EMPLEADOS_ACTIVIDADES (
     cod_empleado    NUMBER NOT NULL,
     cod_actividad   NUMBER  NOT NULL,
     fecha_asignacion DATE DEFAULT SYSDATE,
+    
     PRIMARY KEY (cod_empleado, cod_actividad),
     FOREIGN KEY (cod_empleado) REFERENCES EMPLEADOS(cod_empleado),
     FOREIGN KEY (cod_actividad) REFERENCES ACTIVIDADES(cod_actividad)

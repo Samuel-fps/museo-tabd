@@ -32,7 +32,7 @@ CREATE OR REPLACE TYPE TipoActividad AS OBJECT (
 CREATE OR REPLACE TYPE TipoVisita UNDER TipoActividad (
     cupo_maximo        NUMBER,
     idioma             VARCHAR2(50),
-    tipo               VARCHAR2(20)
+    tipo_visita               VARCHAR2(20)
 );
 
 -- Tipo exposición
@@ -40,5 +40,5 @@ CREATE OR REPLACE TYPE TipoExposicion UNDER TipoActividad (
     tematica           VARCHAR2(100),
     numero_obras       NUMBER,
     cod_sala           NUMBER,
-    tipo               VARCHAR2(20)
+    tipo_exposicion             VARCHAR2(20)
 );
