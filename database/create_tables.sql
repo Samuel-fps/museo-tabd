@@ -105,18 +105,6 @@ CREATE TABLE CLIENTES OF TipoCliente (
         PRIMARY KEY (cod_cliente),
 );
 
--- Tabla de externos
-CREATE TABLE EXTERNOS (
-    cod_externo        NUMBER NOT NULL,
-    nombre             VARCHAR2(100) NOT NULL,
-    telefonos          ListaTelefonos NOT NULL, 
-    email              VARCHAR2(100) NOT NULL,
-    cod_actividad      NUMBER NOT NULL,
-
-    CONSTRAINT pk_externo 
-        PRIMARY KEY (cod_externo)
-);
-
 -- Tabla de actividades
 CREATE TABLE ACTIVIDADES OF TipoActividad (
     cod_actividad   NUMBER NOT NULL,
@@ -255,16 +243,4 @@ CREATE TABLE ROLES_EMPLEADOS (
     PRIMARY KEY (cod_rol, cod_empleado),
     FOREIGN KEY (cod_rol) REFERENCES ROLES(cod_rol),
     FOREIGN KEY (cod_empleado) REFERENCES EMPLEADOS(cod_empleado)
-);
-
--- Actividad_Externo N-M
-CREATE TABLE ACTIVIDADES_EXTERNOS (
-    cod_actividad   NUMBER NOT NULL,
-    cod_externo     NUMBER NOT NULL,
-    fecha           DATE DEFAULT SYSDATE,
-    horas           NUMBER,
-    descripcion     VARCHAR2(255),
-    PRIMARY KEY (cod_actividad, cod_externo),
-    FOREIGN KEY (cod_actividad) REFERENCES ACTIVIDADES(cod_actividad),
-    FOREIGN KEY (cod_externo) REFERENCES EXTERNOS(cod_externo)
 );
