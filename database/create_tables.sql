@@ -354,26 +354,6 @@ END;
 
 -- Procedimientos
 
--- Actualiza el precio de una entrada.
-CREATE OR REPLACE PROCEDURE total_entradas_vendidas_por_fecha (
-    fecha_ini IN DATE,
-    fecha_fin IN DATE
-)
-IS
-    total_entradas NUMBER;
-BEGIN
-    SELECT COUNT(*) INTO total_entradas
-    FROM ENTRADAS
-    WHERE fecha BETWEEN fecha_ini AND fecha_fin;
-
-    DBMS_OUTPUT.PUT_LINE('Total de entradas vendidas entre ' || TO_CHAR(fecha_ini, 'DD-MM-YYYY') ||
-                         ' y ' || TO_CHAR(fecha_fin, 'DD-MM-YYYY') || ': ' || total_entradas);
-EXCEPTION
-    WHEN OTHERS THEN
-        DBMS_OUTPUT.PUT_LINE('Error al calcular las entradas: ' || SQLERRM);
-END;
-/
-
 -- Asigna un empleado a una actividad.
 CREATE OR REPLACE PROCEDURE asignar_empleado_a_actividad (
     c_actividad IN ACTIVIDADES.cod_actividad%TYPE,

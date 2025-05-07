@@ -44,3 +44,36 @@ END;
 CREATE OR REPLACE PACKAGE pkg_visitas IS
   FUNCTION cantidad_visitas_por_mes(v_mes IN NUMBER, v_anno IN NUMBER) RETURN NUMBER;
 END create_package;
+
+-- Cuerpo del paquete Visitas
+CREATE OR REPLACE PACKAGE BODY pkg_visitas AS
+
+END pkg_visitas;
+
+-- Paquete Entradas
+CREATE OR REPLACE PACKAGE pkg_entradas IS
+  PROCEDURE total_entradas_vendidas_por_fecha(v_fecha IN DATE, v_total OUT NUMBER);
+END create_package;
+
+-- Cuerpo del paquete Entradas
+CREATE OR REPLACE PACKAGE BODY pkg_entradas AS
+
+    -- Devuelve el numer de entradas vendidas en un periodo de tiempo.
+  CREATE OR REPLACE FUNCTION total_entradas_vendidas_por_fecha (
+      fecha_ini IN DATE,
+      fecha_fin IN DATE
+  ) IS total_entradas NUMBER;
+  BEGIN
+      SELECT COUNT(*) INTO total_entradas
+      FROM ENTRADAS
+      WHERE fecha BETWEEN fecha_ini AND fecha_fin;
+
+      RETURN total_entradas;
+  EXCEPTION
+      WHEN OTHERS THEN
+          DBMS_OUTPUT.PUT_LINE('Error al calcular las entradas: ' || SQLERRM);
+  END;
+  /
+
+
+END pkg_entradas;
