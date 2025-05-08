@@ -1,5 +1,5 @@
 -- Tabla de empleados
-CREATE TABLE EMPLEADOS OF TipoEmpleado (
+CREATE TABLE EMPLEADOS (
     cod_empleado       NUMBER NOT NULL,
     nombre             TipoNombre NOT NULL,
     fecha_nacimiento    DATE,
@@ -18,7 +18,7 @@ CREATE TABLE EMPLEADOS OF TipoEmpleado (
 );
 
 -- Tabla de departamentos
-CREATE TABLE DEPARTAMENTOS OF TipoDepartamento (
+CREATE TABLE DEPARTAMENTOS (
     cod_departamento   NUMBER NOT NULL,
     nombre             VARCHAR2(100) NOT NULL,
     descripcion        VARCHAR2(500),
@@ -31,7 +31,7 @@ CREATE TABLE DEPARTAMENTOS OF TipoDepartamento (
 );
 
 -- Tabla de roles
-CREATE TABLE ROLES OF TipoRol (
+CREATE TABLE ROLES (
     cod_rol            NUMBER NOT NULL,
     nombre             VARCHAR2(50) NOT NULL,
     descripcion        VARCHAR2(255),
@@ -41,20 +41,20 @@ CREATE TABLE ROLES OF TipoRol (
 );
 
 -- Tabla de contratos
-CREATE TABLE CONTRATOS OF TipoContrato (
+CREATE TABLE CONTRATOS (
     cod_contrato       NUMBER NOT NULL,
     fecha_ini          DATE NOT NULL,
     fecha_fin          DATE DEFAULT NULL,
     sueldo             NUMBER(10, 2) NOT NULL,
     jornada_laboral    VARCHAR2(50) NOT NULL,
-    estado             VARCHAR2(20) NOT NULL
+    estado             VARCHAR2(20) NOT NULL,
 
     CONSTRAINT pk_contrato 
         PRIMARY KEY (cod_contrato)
 );
 
 -- Tabla de ventas
-CREATE TABLE VENTAS OF TipoVenta (
+CREATE TABLE VENTAS (
     cod_venta          NUMBER NOT NULL,
     fecha              DATE NOT NULL DEFAULT SYSDATE,
     cod_empleado       NUMBER NOT NULL,
@@ -68,7 +68,7 @@ CREATE TABLE VENTAS OF TipoVenta (
 );
 
 -- Tabla de entradas
-CREATE TABLE ENTRADAS OF TipoEntrada (
+CREATE TABLE ENTRADAS (
     cod_entrada        NUMBER NOT NULL,
     precio             NUMBER(7, 2) NOT NULL,
     fecha              DATE NOT NULL,
@@ -89,7 +89,7 @@ CREATE TABLE ENTRADAS OF TipoEntrada (
 );
 
 -- Tabla de clientes
-CREATE TABLE CLIENTES OF TipoCliente (
+CREATE TABLE CLIENTES (
     cod_cliente        NUMBER NOT NULL,
     nombre             TipoNombre NOT NULL,
     fecha_nacimiento   DATE,
