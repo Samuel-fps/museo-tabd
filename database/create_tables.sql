@@ -118,41 +118,35 @@ END;
 
 -- Tabla de contratos
 CREATE TABLE CONTRATOS (
-    cod_contrato       NUMBER NOT NULL,
+    cod_contrato       NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     fecha_ini          DATE NOT NULL,
     fecha_fin          DATE DEFAULT NULL,
     sueldo             NUMBER(10, 2) NOT NULL,
     jornada_laboral    VARCHAR2(50) NOT NULL,
     estado             VARCHAR2(20) NOT NULL,
 
-    CONSTRAINT pk_contrato 
-        PRIMARY KEY (cod_contrato)
 );
 
 -- Tabla de salas
 CREATE TABLE SALAS (
-    cod_sala           NUMBER NOT NULL,
+    cod_sala           NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nombre             VARCHAR2(100) NOT NULL,
     descripcion        VARCHAR2(255),
     localizacion       VARCHAR2(100),
 
-    CONSTRAINT pk_sala 
-        PRIMARY KEY (cod_sala)
 );
 
 -- Tabla de roles
 CREATE TABLE ROLES (
-    cod_rol            NUMBER NOT NULL,
+    cod_rol            NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nombre             VARCHAR2(50) NOT NULL,
     descripcion        VARCHAR2(255),
 
-    CONSTRAINT pk_roles 
-        PRIMARY KEY (cod_rol)
 );
 
 -- Tabla de autores
 CREATE TABLE AUTORES(
-    cod_autor          NUMBER NOT NULL,
+    cod_autor          NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nombre             TipoNombre NOT NULL,
     pais_origen        VARCHAR2(50),
     fecha_nacimiento   DATE,
@@ -160,24 +154,20 @@ CREATE TABLE AUTORES(
     num_obras          INTEGER DEFAULT 0,
     estilo             VARCHAR2(100),
 
-    CONSTRAINT pk_autor 
-        PRIMARY KEY (cod_autor)
 );
 
 -- Tabla de departamentos
 CREATE TABLE DEPARTAMENTOS (
-    cod_departamento   NUMBER NOT NULL,
+    cod_departamento   NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nombre             VARCHAR2(100) NOT NULL,
     descripcion        VARCHAR2(500),
     cod_encargado      NUMBER,
 
-    CONSTRAINT pk_departamento 
-        PRIMARY KEY (cod_departamento)
 );
 
 -- Tabla de empleados
 CREATE TABLE EMPLEADOS (
-    cod_empleado       NUMBER NOT NULL,
+    cod_empleado       NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nombre             TipoNombre NOT NULL,
     fecha_nacimiento    DATE,
     telefonos           TipoListaTelefonos,
@@ -186,8 +176,6 @@ CREATE TABLE EMPLEADOS (
     cod_contrato       NUMBER NOT NULL,
     cod_departamento   NUMBER NOT NULL,
 
-    CONSTRAINT pk_empleado 
-        PRIMARY KEY (cod_empleado),
     CONSTRAINT fk_contrato 
         FOREIGN KEY (cod_contrato) REFERENCES CONTRATOS(cod_contrato),
     CONSTRAINT fk_departamento 
@@ -200,7 +188,7 @@ ADD CONSTRAINT fk_encargado FOREIGN KEY (cod_encargado) REFERENCES EMPLEADOS(cod
 
 -- Tabla de clientes
 CREATE TABLE CLIENTES (
-    cod_cliente        NUMBER NOT NULL,
+    cod_cliente        NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nombre             TipoNombre NOT NULL,
     fecha_nacimiento   DATE,
     telefonos          TipoListaTelefonos NOT NULL,
@@ -209,26 +197,22 @@ CREATE TABLE CLIENTES (
     CONSTRAINT chk_email CHECK (email LIKE '%@%.%'),
     CONSTRAINT chk_telefono CHECK (telefonos IS NOT NULL),
 
-    CONSTRAINT pk_cliente
-        PRIMARY KEY (cod_cliente)
 );
 
 
 -- Tabla de ventas
 CREATE TABLE VENTAS (
-    cod_venta          NUMBER NOT NULL,
+    cod_venta          NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     fecha              DATE DEFAULT SYSDATE NOT NULL,
     cod_empleado       NUMBER NOT NULL,
 
-    CONSTRAINT pk_venta
-        PRIMARY KEY (cod_venta),
     CONSTRAINT fk_empleado 
         FOREIGN KEY (cod_empleado) REFERENCES EMPLEADOS(cod_empleado)
 );
 
 -- Tabla de entradas
 CREATE TABLE ENTRADAS (
-    cod_entrada        NUMBER NOT NULL,
+    cod_entrada        NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     precio             NUMBER(7, 2) NOT NULL,
     fecha              DATE NOT NULL,
     tipo               VARCHAR2(20) NOT NULL,
@@ -238,8 +222,6 @@ CREATE TABLE ENTRADAS (
     CONSTRAINT chk_tipo CHECK (tipo IN ('Física', 'Online')),
     CONSTRAINT chk_precio CHECK (precio > 0),
 
-    CONSTRAINT pk_entradas 
-        PRIMARY KEY (cod_entrada),
     CONSTRAINT fk_cliente
         FOREIGN KEY (cod_cliente) REFERENCES CLIENTES(cod_cliente),
     CONSTRAINT fk_venta
@@ -248,7 +230,7 @@ CREATE TABLE ENTRADAS (
 
 -- Tabla de visitas
 CREATE TABLE VISITAS (
-    cod_visita   NUMBER NOT NULL,
+    cod_visita   NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nombre          VARCHAR2(100) NOT NULL,
     fecha_inicio    DATE NOT NULL,
     fecha_fin       DATE NOT NULL,
@@ -261,15 +243,13 @@ CREATE TABLE VISITAS (
     CONSTRAINT chk_fecha_visita CHECK (fecha_inicio <= fecha_fin),
     CONSTRAINT chk_cupo CHECK (cupo_maximo >= 0),
 
-    CONSTRAINT pk_visita 
-        PRIMARY KEY (cod_visita),
     CONSTRAINT fk_entrada
         FOREIGN KEY (cod_entrada) REFERENCES ENTRADAS(cod_entrada)
 );
 
 -- Tabla de exposiciones
 CREATE TABLE EXPOSICIONES (
-    cod_exposicion   NUMBER NOT NULL,
+    cod_exposicion   NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nombre          VARCHAR2(100) NOT NULL,
     fecha_inicio    DATE NOT NULL,
     fecha_fin       DATE NOT NULL,
@@ -282,15 +262,13 @@ CREATE TABLE EXPOSICIONES (
     CONSTRAINT chk_fecha_expo CHECK (fecha_inicio <= fecha_fin),
     CONSTRAINT chk_numero_obras CHECK (numero_obras >= 0),
 
-    CONSTRAINT pk_exposicion 
-        PRIMARY KEY (cod_exposicion),
     CONSTRAINT fk_sala 
         FOREIGN KEY (cod_sala) REFERENCES SALAS(cod_sala)
 );
 
 -- Tabla de obras de arte
 CREATE TABLE OBRAS (
-    cod_obra           NUMBER NOT NULL,
+    cod_obra           NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nombre             VARCHAR2(100) NOT NULL,
     descripcion        VARCHAR2(500),
     fecha_creacion     DATE,
@@ -304,9 +282,6 @@ CREATE TABLE OBRAS (
 
     CONSTRAINT chk_tipo_obra CHECK (tipo IN ('Cuadro', 'Escultura', 'Fotografía', 'Alfarería')),
     CONSTRAINT chk_fecha_obra CHECK (fecha_creacion <= fecha_adquisicion),
-
-    CONSTRAINT pk_obra
-        PRIMARY KEY (cod_obra),
 
     CONSTRAINT fk_obras_sala 
         FOREIGN KEY (cod_sala) 
