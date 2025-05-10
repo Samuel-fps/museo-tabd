@@ -123,7 +123,7 @@ CREATE TABLE CONTRATOS (
     fecha_fin          DATE DEFAULT NULL,
     sueldo             NUMBER(10, 2) NOT NULL,
     jornada_laboral    VARCHAR2(50) NOT NULL,
-    estado             VARCHAR2(20) NOT NULL,
+    estado             VARCHAR2(20) NOT NULL
 
 );
 
@@ -132,7 +132,7 @@ CREATE TABLE SALAS (
     cod_sala           NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nombre             VARCHAR2(100) NOT NULL,
     descripcion        VARCHAR2(255),
-    localizacion       VARCHAR2(100),
+    localizacion       VARCHAR2(100)
 
 );
 
@@ -140,7 +140,7 @@ CREATE TABLE SALAS (
 CREATE TABLE ROLES (
     cod_rol            NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nombre             VARCHAR2(50) NOT NULL,
-    descripcion        VARCHAR2(255),
+    descripcion        VARCHAR2(255)
 
 );
 
@@ -152,7 +152,7 @@ CREATE TABLE AUTORES(
     fecha_nacimiento   DATE,
     fecha_muerte       DATE,
     num_obras          INTEGER DEFAULT 0,
-    estilo             VARCHAR2(100),
+    estilo             VARCHAR2(100)
 
 );
 
@@ -161,7 +161,7 @@ CREATE TABLE DEPARTAMENTOS (
     cod_departamento   NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nombre             VARCHAR2(100) NOT NULL,
     descripcion        VARCHAR2(500),
-    cod_encargado      NUMBER,
+    cod_encargado      NUMBER
 
 );
 
@@ -195,7 +195,7 @@ CREATE TABLE CLIENTES (
     email              VARCHAR2(100) NOT NULL,
 
     CONSTRAINT chk_email CHECK (email LIKE '%@%.%'),
-    CONSTRAINT chk_telefono CHECK (telefonos IS NOT NULL),
+    CONSTRAINT chk_telefono CHECK (telefonos IS NOT NULL)
 
 );
 
