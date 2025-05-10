@@ -44,6 +44,48 @@ INSERT INTO AUTORES (
 );
 
 
+-- Sala 1
+INSERT INTO SALAS (nombre, descripcion, localizacion)
+VALUES (
+    'Sala Tropical',
+    'Exhibe obras de arte inspiradas en frutas tropicales.',
+    'Planta Baja - Ala Norte'
+);
+
+-- Sala 2
+INSERT INTO SALAS (nombre, descripcion, localizacion)
+VALUES (
+    'Sala Vanguardista',
+    'Espacio dedicado a las reinterpretaciones modernas de la fruta en el arte contemporáneo.',
+    'Planta Baja - Ala Este'
+);
+
+-- Sala 3
+INSERT INTO SALAS (nombre, descripcion, localizacion)
+VALUES (
+    'Galería Histórica',
+    'Recorrido por la historia del arte con motivos frutales desde la antigüedad hasta el siglo XIX.',
+    'Primer Piso - Ala Oeste'
+);
+
+-- Sala 4
+INSERT INTO SALAS (nombre, descripcion, localizacion)
+VALUES (
+    'Sala Experimental',
+    'Lugar para instalaciones y obras de arte multimedia relacionadas con la cultura de la fruta.',
+    'Segundo Piso - Ala Sur'
+);
+
+-- Sala 5
+INSERT INTO SALAS (nombre, descripcion, localizacion)
+VALUES (
+    'Mini Galería Juvenil',
+    'Pequeña sala dedicada a obras realizadas por artistas jóvenes sobre la temática frutal.',
+    'Planta Baja - Cerca de la Entrada Principal'
+);
+
+
+
 -- Obra 1 - Pablo Plátano Picasso
 INSERT INTO OBRAS (
     nombre,
@@ -102,14 +144,14 @@ INSERT INTO OBRAS (
     cod_sala,
     cod_autor
 ) VALUES (
-    'Banana Pop',
+    'Melón Pop',
     'La famosa serie de serigrafías de melones en colores vibrantes.',
     TO_DATE('1965-11-05', 'YYYY-MM-DD'),
     SYSDATE,
     'Cuadro',
     'Pop Art',
     'Contemporáneo',
-    1,
+    2,
     2
 );
 
@@ -125,14 +167,14 @@ INSERT INTO OBRAS (
     cod_sala,
     cod_autor
 ) VALUES (
-    'Plátanos y Raíces',
+    'Manzanas y Raíces',
     'Una obra surrealista que explora la conexión entre la naturaleza y la identidad.',
     TO_DATE('1944-09-12', 'YYYY-MM-DD'),
     SYSDATE,
     'Cuadro',
     'Surrealismo',
     'Modernismo',
-    1,
+    4,
     3
 );
 
@@ -148,13 +190,13 @@ INSERT INTO OBRAS (
     cod_sala,
     cod_autor
 ) VALUES (
-    'Plátano Doble Exposure',
+    'Melón Doble Exposure',
     'Un experimento visual sobre la repetición y la cultura pop.',
     TO_DATE('1970-02-10', 'YYYY-MM-DD'),
     SYSDATE,
     'Fotografía',
     'Pop Art',
     'Contemporáneo',
-    1,
+    5,
     2
 );
