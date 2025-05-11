@@ -218,6 +218,7 @@ CREATE TABLE ENTRADAS (
     tipo               VARCHAR2(20) NOT NULL,
     cod_cliente        NUMBER NOT NULL,
     cod_venta          NUMBER NOT NULL,
+    cod_visita        NUMBER NOT NULL,
     
     CONSTRAINT chk_tipo CHECK (tipo IN ('Física', 'Online')),
     CONSTRAINT chk_precio CHECK (precio > 0),
@@ -226,6 +227,8 @@ CREATE TABLE ENTRADAS (
         FOREIGN KEY (cod_cliente) REFERENCES CLIENTES(cod_cliente),
     CONSTRAINT fk_venta
         FOREIGN KEY (cod_venta) REFERENCES VENTAS(cod_venta)
+    CONSTRAINT fk_entrada
+        FOREIGN KEY (cod_visita) REFERENCES VISITAS(cod_visita)
 );
 
 -- Tabla de visitas
@@ -237,14 +240,13 @@ CREATE TABLE VISITAS (
     cupo_maximo        NUMBER,
     idioma             VARCHAR2(50),
     tipo_visita               VARCHAR2(20),
-    cod_entrada        NUMBER NOT NULL,
+    
 
      CONSTRAINT chk_tipo_visita CHECK (tipo_visita IN ('Guiada', 'Autoguiada', 'Virtual')),
     CONSTRAINT chk_fecha_visita CHECK (fecha_inicio <= fecha_fin),
-    CONSTRAINT chk_cupo CHECK (cupo_maximo >= 0),
+    CONSTRAINT chk_cupo CHECK (cupo_maximo >= 0)
 
-    CONSTRAINT fk_entrada
-        FOREIGN KEY (cod_entrada) REFERENCES ENTRADAS(cod_entrada)
+
 );
 
 -- Tabla de exposiciones
