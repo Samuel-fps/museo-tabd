@@ -154,3 +154,56 @@ CREATE OR REPLACE PACKAGE BODY pkg_contrato AS
   END actualizar_estado_contratos;
 
 END pkg_contrato;
+
+
+-- Paquete Empleados
+CREATE OR REPLACE PACKAGE pkg_empleados IS
+
+  PROCEDURE actualizar_estado_empleado(v_cod_empleado IN NUMBER, v_estado IN VARCHAR2);
+
+END pkg_empleados;
+
+-- Cuerpo del paquete Empleados
+CREATE OR REPLACE PACKAGE BODY pkg_empleados AS
+
+  PROCEDURE asignar_empleado_visita (
+    p_cod_visita IN ACTIVIDADES.cod_visita%TYPE,
+    p_id_empleado IN EMPLEADO.cod_empleado%TYPE
+  )
+  IS
+      v_exists NUMBER;
+  BEGIN
+      -- Verificar si la visita existe
+      SELECT COUNT(*) INTO v_exists
+      FROM VISITAS
+      WHERE cod_visita = p_cod_visita;
+
+      IF v_exists = 0 THEN
+          RAISE_APPLICATION_ERROR(-20001, 'La visita no existe.');
+      END IF;
+
+      -- Verificar si el empleado existe
+      SELECT COUNT(*) INTO v_exists
+      FROM EMPLEADOS
+      WHERE cod_empleado = p_cod_empleado;
+
+      IF v_exists = 0 THEN
+          RAISE_APPLICATION_ERROR(-20002, 'El empleado no existe.');
+      END IF;
+
+      -- Asignar el empleado a la actividad
+      UPDATE VISITAS
+      SET cod_empleado = p_cod_empleado
+      WHERE cod_visita = p_cod_visita;
+
+      COMMIT;
+
+  EXCEPTION
+      WHEN OTHERS THEN
+          ROLLBACK;
+          RAISE_APPLICATION_ERROR(-20003, 'Error al asignar el empleado: ' || SQLERRM);
+  END;
+  /
+
+
+END pkg_empleados;
