@@ -92,7 +92,7 @@ CREATE OR REPLACE PACKAGE pkg_contrato IS
 PROCEDURE actualizar_estado_contratos;
 END create_package;
 
--- Cuerpo del paquete Autor
+-- Cuerpo del paquete Contrato
 CREATE OR REPLACE PACKAGE BODY pkg_contrato AS
 PROCEDURE actualizar_estado_contratos AS
     BEGIN
