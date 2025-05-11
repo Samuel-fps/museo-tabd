@@ -207,3 +207,84 @@ CREATE OR REPLACE PACKAGE BODY pkg_empleados AS
 
 
 END pkg_empleados;
+
+-- Paquete Obras
+CREATE OR REPLACE PACKAGE pkg_obras IS
+
+  FUNCTION registrar_obra (
+        p_nombre            VARCHAR2,
+        p_descripcion       VARCHAR2,
+        p_fecha_creacion    DATE,
+        p_fecha_adquisicion DATE,
+        p_tipo              VARCHAR2,
+        p_est_artistico     VARCHAR2,
+        p_est_historico     VARCHAR2,
+        p_imagen            BLOB,
+        p_cod_sala          NUMBER,
+        p_cod_autor         NUMBER
+    ) RETURN NUMBER;
+  FUNCTION total_obras_por_autor(v_autor IN NUMBER) RETURN NUMBER;
+
+END pkg_obras;
+
+-- Cuerpo del paquete Obras
+CREATE OR REPLACE PACKAGE BODY pkg_obras AS
+
+  -- Registra una nueva obra
+  CREATE OR REPLACE FUNCTION registrar_obra (
+    p_nombre            IN OBRAS.nombre%TYPE,
+    p_descripcion       IN OBRAS.descripcion%TYPE,
+    p_fecha_creacion    IN OBRAS.fecha_creacion%TYPE,
+    p_fecha_adquisicion IN OBRAS.fecha_adquisicion%TYPE DEFAULT SYSDATE,
+    p_tipo              IN OBRAS.tipo%TYPE,
+    p_est_artistico     IN OBRAS.est_artistico%TYPE,
+    p_est_historico     IN OBRAS.est_historico%TYPE,
+    p_imagen            IN OBRAS.imagen%TYPE,
+    p_cod_sala          IN OBRAS.cod_sala%TYPE,
+    p_cod_autor         IN OBRAS.cod_autor%TYPE
+  ) RETURN NUMBER
+  IS
+      v_cod_obra NUMBER;
+      v_exists   NUMBER;
+  BEGIN
+      -- Verificar que la sala existe
+      SELECT COUNT(*) INTO v_exists
+      FROM SALAS
+      WHERE cod_sala = p_cod_sala;
+
+      IF v_exists = 0 THEN
+          RAISE_APPLICATION_ERROR(-20001, 'La sala especificada no existe.');
+      END IF;
+
+      -- Verificar que el autor existe
+      SELECT COUNT(*) INTO v_exists
+      FROM AUTORES
+      WHERE cod_autor = p_cod_autor;
+
+      IF v_exists = 0 THEN
+          RAISE_APPLICATION_ERROR(-20002, 'El autor especificado no existe.');
+      END IF;
+  END registrar_obra;
+
+  -- Cambiar una obra de sala
+  PROCEDURE cambiar_obra_sala(v_obra IN NUMBER, v_sala IN NUMBER) IS
+      v_sala_actual NUMBER;
+  BEGIN
+      -- Obtener la sala actual de la obra
+      SELECT sala INTO v_sala_actual FROM OBRAS WHERE cod_obra = v_obra;
+
+      -- Si es distinta a la actual
+      IF v_sala_actual != v_sala THEN
+          UPDATE OBRAS SET sala = v_sala WHERE cod_obra = v_obra;
+          COMMIT;
+      ELSE
+          DBMS_OUTPUT.PUT_LINE('La obra ya está en la sala especificada.');
+      END IF;
+  EXCEPTION
+      WHEN NO_DATA_FOUND THEN
+          DBMS_OUTPUT.PUT_LINE('No se encontró la obra.');
+      WHEN OTHERS THEN
+          DBMS_OUTPUT.PUT_LINE('Error al cambiar la sala de la obra: ' || SQLERRM);
+  END cambiar_obra_sala;
+
+END pkg_obras;
