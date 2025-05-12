@@ -1,35 +1,19 @@
+-- Archivo donde se contienen los triggers de la base de datos
 
--- trigger para evitar eliminar autores que tengan obras registradas
-CREATE OR REPLACE TRIGGER no_delete_autor_con_obras
-BEFORE DELETE ON AUTORES
-FOR EACH ROW
-DECLARE
-    v_count NUMBER;
-BEGIN
-    SELECT COUNT(*) INTO v_count
-    FROM OBRA_DE_ARTE
-    WHERE cod_autor = :OLD.cod_autor;
+-- GENERAL
 
-    IF v_count > 0 THEN
-        RAISE_APPLICATION_ERROR(-20001, 'No se puede eliminar el autor porque tiene obras registradas.');
-    END IF;
-END;
-/
-
--- trigger para evitar eliminar trapas por error
+-- Trigger para evitar eliminar tablas por error
 CREATE OR REPLACE TRIGGER no_drop_table
 BEFORE DROP ON DATABASE
 BEGIN
     RAISE_APPLICATION_ERROR(-20000, 'No está permitido eliminar tablas en esta base de datos.');
 END;
-
-
-
-
 /
 
---Trigger para no borrar una actividad si hay una visita o exposicion activa
-CREATE OR REPLACE TRIGGER trigger_borrar_actividad
+-- ACTIVIDADES
+
+-- Trigger para no borrar una actividad si hay una visita o exposicion activa
+CREATE OR REPLACE TRIGGER trg_borrar_actividad
 BEFORE DELETE ON ACTIVIDADES FOR EACH ROW
 
 DECLARE
@@ -51,9 +35,30 @@ BEGIN
 END;
 /
 
---Trigger para evitar que haya obras anteriores al nacimiento de su autor
-CREATE OR REPLACE TRIGGER trigger_update_obras
-AFTER UPDATE ON OBRA_DE_ARTE FOR EACH ROW
+-- AUTORES
+
+-- Trigger para evitar eliminar autores que tengan obras registradas
+CREATE OR REPLACE TRIGGER no_borrar_autor_con_obras
+BEFORE DELETE ON AUTORES
+FOR EACH ROW
+DECLARE
+    v_count NUMBER;
+BEGIN
+    SELECT COUNT(*) INTO v_count -- Contar el número de obras asociadas al autor
+    FROM OBRAS
+    WHERE cod_autor = :OLD.cod_autor;
+
+    IF v_count > 0 THEN
+        RAISE_APPLICATION_ERROR(-20001, 'No se puede eliminar el autor porque tiene obras registradas.');
+    END IF;
+END;
+/
+
+-- OBRAS
+
+-- Trigger para evitar que haya obras anteriores al nacimiento de su autor
+CREATE OR REPLACE TRIGGER trg_update_num_obras
+AFTER UPDATE ON OBRAS FOR EACH ROW
 
 DECLARE 
     v_fecha DATE;
@@ -67,4 +72,46 @@ BEGIN
         END IF;
     END IF;
 END;
+/
+
+-- Triggers para controlar el numero de obras de un autor
+
+CREATE OR REPLACE TRIGGER trg_insertar_num_obras
+AFTER INSERT ON OBRAS
+FOR EACH ROW
+BEGIN
+    -- Incrementar el número de obras del autor
+    UPDATE AUTORES
+    SET num_obras = num_obras + 1
+    WHERE cod_autor = :NEW.cod_autor;
+END trg_insertar_obra;
+/
+
+CREATE OR REPLACE TRIGGER trg_actualizar_num_obras
+AFTER UPDATE ON OBRAS
+FOR EACH ROW
+BEGIN
+    -- Si el autor de la obra ha cambiado, restamos una obra al autor anterior
+    IF :OLD.cod_autor != :NEW.cod_autor THEN
+        UPDATE AUTORES
+        SET num_obras = num_obras - 1
+        WHERE cod_autor = :OLD.cod_autor;
+
+        -- Sumamos una obra al nuevo autor
+        UPDATE AUTORES
+        SET num_obras = num_obras + 1
+        WHERE cod_autor = :NEW.cod_autor;
+    END IF;
+END trg_actualizar_obra;
+/
+
+CREATE OR REPLACE TRIGGER trg_eliminar_obra
+AFTER DELETE ON OBRAS
+FOR EACH ROW
+BEGIN
+    -- Decrementar el número de obras del autor
+    UPDATE AUTORES
+    SET num_obras = num_obras - 1
+    WHERE cod_autor = :OLD.cod_autor;
+END trg_eliminar_obra;
 /

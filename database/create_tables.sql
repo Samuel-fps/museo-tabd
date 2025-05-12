@@ -226,7 +226,7 @@ CREATE TABLE ENTRADAS (
     CONSTRAINT fk_cliente
         FOREIGN KEY (cod_cliente) REFERENCES CLIENTES(cod_cliente),
     CONSTRAINT fk_venta
-        FOREIGN KEY (cod_venta) REFERENCES VENTAS(cod_venta)
+        FOREIGN KEY (cod_venta) REFERENCES VENTAS(cod_venta),
     CONSTRAINT fk_visita
         FOREIGN KEY (cod_visita) REFERENCES VISITAS(cod_visita)
 );
