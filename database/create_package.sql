@@ -160,19 +160,19 @@ CREATE OR REPLACE PACKAGE pkg_contrato IS
 
 END pkg_contrato;
 
-  -- Cuerpo del paquete Contrato
+-- Cuerpo del paquete Contrato
 CREATE OR REPLACE PACKAGE BODY pkg_contrato AS
 
   PROCEDURE actualizar_estado_contratos AS
       BEGIN
           UPDATE CONTRATO
-          SET estado = 'Inactivo';
+          SET estado = 'Inactivo'
           WHERE fecha_fin IS NOT NULL;
       END;
   END actualizar_estado_contratos;
 
 END pkg_contrato;
-
+/
 
 -- Paquete Empleados
 CREATE OR REPLACE PACKAGE pkg_empleados IS
@@ -181,6 +181,7 @@ CREATE OR REPLACE PACKAGE pkg_empleados IS
   PROCEDURE asignar_empleado_visita;
 
 END pkg_empleados;
+/
 
 -- Cuerpo del paquete Empleados
 CREATE OR REPLACE PACKAGE BODY pkg_empleados AS
