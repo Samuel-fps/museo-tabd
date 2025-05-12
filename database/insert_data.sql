@@ -200,3 +200,204 @@ INSERT INTO OBRAS (
     5,
     2
 );
+
+
+--INSERTAR DEPARTAMENTOS
+INSERT INTO DEPARTAMENTOS (nombre, descripcion, cod_encargado)
+VALUES ('Conservación', 'Se encarga del mantenimiento y preservación de las obras.', NULL);
+
+INSERT INTO DEPARTAMENTOS (nombre, descripcion, cod_encargado)
+VALUES ('Educación', 'Organiza visitas guiadas y programas educativos.', NULL);
+
+INSERT INTO DEPARTAMENTOS (nombre, descripcion, cod_encargado)
+VALUES ('Curaduría', 'Selecciona y organiza las exposiciones temporales.', NULL);
+
+INSERT INTO DEPARTAMENTOS (nombre, descripcion, cod_encargado)
+VALUES ('Administración', 'Gestiona los recursos humanos y financieros del museo.', NULL);
+
+INSERT INTO DEPARTAMENTOS (nombre, descripcion, cod_encargado)
+VALUES ('Tecnología', 'Gestiona los sistemas informáticos y la plataforma web.', NULL);
+
+
+--INSERTAR ROLES
+INSERT INTO ROLES (nombre, descripcion)
+VALUES ('Guía', 'Responsable de realizar visitas guiadas a los visitantes.');
+
+INSERT INTO ROLES (nombre, descripcion)
+VALUES ('Curador', 'Selecciona y organiza las obras para exposiciones.');
+
+INSERT INTO ROLES (nombre, descripcion)
+VALUES ('Administrador', 'Gestiona el sistema y los usuarios.');
+
+INSERT INTO ROLES (nombre, descripcion)
+VALUES ('Recepcionista', 'Atiende al público y gestiona la venta de entradas.');
+
+INSERT INTO ROLES (nombre, descripcion)
+VALUES ('Técnico de conservación', 'Supervisa el estado de las obras y su preservación.');
+
+
+--INSERT CONTRATOS
+INSERT INTO CONTRATOS (fecha_ini, fecha_fin, sueldo, jornada_laboral, estado)
+VALUES (TO_DATE('2023-01-10', 'YYYY-MM-DD'), TO_DATE('2024-01-10', 'YYYY-MM-DD'), 18000.00, 'Completa', 'Activo');
+
+INSERT INTO CONTRATOS (fecha_ini, fecha_fin, sueldo, jornada_laboral, estado)
+VALUES (TO_DATE('2022-05-01', 'YYYY-MM-DD'), NULL, 15000.00, 'Parcial', 'Activo');
+
+INSERT INTO CONTRATOS (fecha_ini, fecha_fin, sueldo, jornada_laboral, estado)
+VALUES (TO_DATE('2021-09-15', 'YYYY-MM-DD'), TO_DATE('2022-09-15', 'YYYY-MM-DD'), 22000.00, 'Completa', 'Inactivo');
+
+
+--INSERT EMPLEADOS
+INSERT INTO EMPLEADOS (
+    nombre, fecha_nacimiento, telefonos, direccion, email, cod_contrato, cod_departamento
+) VALUES (
+    TipoNombre('Laura', 'Emperatriz'), 
+    TO_DATE('1990-04-10', 'YYYY-MM-DD'), 
+    TipoListaTelefonos('611223344'), 
+    TipoDireccion('Calle Prado', 'Madrid', 'Madrid', '28014'), 
+    'laura.marquez@museo.com', 
+    1, 1
+);
+
+INSERT INTO EMPLEADOS (
+    nombre, fecha_nacimiento, telefonos, direccion, email, cod_contrato, cod_departamento
+) VALUES (
+    TipoNombre('Carlos', 'Reyes'), 
+    TO_DATE('1985-11-25', 'YYYY-MM-DD'), 
+    TipoListaTelefonos('622334455'), 
+    TipoDireccion('Avenida del Arte', 'Sevilla', 'Sevilla', '41001'), 
+    'carlos.reyes@museo.com', 
+    2, 1
+);
+
+INSERT INTO EMPLEADOS (
+    nombre, fecha_nacimiento, telefonos, direccion, email, cod_contrato, cod_departamento
+) VALUES (
+    TipoNombre('Paconi', 'Santos'), 
+    TO_DATE('1992-07-19', 'YYYY-MM-DD'), 
+    TipoListaTelefonos('633445566'), 
+    TipoDireccion('Calle de las Artes', 'Valencia', 'Valencia', '46001'), 
+    'paconi.santos@museo.com', 
+    3, 2
+);
+
+
+--INSERT ROLES-EMPLEADOS
+INSERT INTO ROLES_EMPLEADOS (cod_rol, cod_empleado) VALUES (1, 1);
+INSERT INTO ROLES_EMPLEADOS (cod_rol, cod_empleado) VALUES (2, 2); 
+INSERT INTO ROLES_EMPLEADOS (cod_rol, cod_empleado) VALUES (3, 3); 
+
+
+
+--INSERT CLIENTES
+INSERT INTO CLIENTES (
+    nombre, fecha_nacimiento, telefonos, email
+) VALUES (
+    TipoNombre('Andrés', 'Gómez'),
+    TO_DATE('1980-03-15', 'YYYY-MM-DD'),
+    TipoListaTelefonos('600111222'),
+    'andres.gomez@email.com'
+);
+
+INSERT INTO CLIENTES (
+    nombre, fecha_nacimiento, telefonos, email
+) VALUES (
+    TipoNombre('Marta', 'Ruiz'),
+    TO_DATE('1995-08-21', 'YYYY-MM-DD'),
+    TipoListaTelefonos('600222333'),
+    'marta.ruiz@email.com'
+);
+
+INSERT INTO CLIENTES (
+    nombre, fecha_nacimiento, telefonos, email
+) VALUES (
+    TipoNombre('Javier', 'López'),
+    TO_DATE('1978-12-02', 'YYYY-MM-DD'),
+    TipoListaTelefonos('600333444'),
+    'javier.lopez@email.com'
+);
+
+INSERT INTO CLIENTES (
+    nombre, fecha_nacimiento, telefonos, email
+) VALUES (
+    TipoNombre('María', 'Fernández'),
+    TO_DATE('1988-06-30', 'YYYY-MM-DD'),
+    TipoListaTelefonos('600444555'),
+    'lucia.fernandez@email.com'
+);
+
+INSERT INTO CLIENTES (
+    nombre, fecha_nacimiento, telefonos, email
+) VALUES (
+    TipoNombre('Pedro', 'Pedro Pe'),
+    TO_DATE('1990-09-10', 'YYYY-MM-DD'),
+    TipoListaTelefonos('600555666'),
+    'pedro.pe@email.com'
+);
+
+
+--INSERT VISITAS
+-- Visita 1
+INSERT INTO VISITAS (
+    nombre, fecha_inicio, fecha_fin, cupo_maximo, idioma, tipo_visita, cod_empleado
+) VALUES (
+    'Recorrido Frutal Histórico',
+    TO_DATE('2025-06-01', 'YYYY-MM-DD'),
+    TO_DATE('2025-06-01', 'YYYY-MM-DD'),
+    30,
+    'Español',
+    'Guiada',
+    1
+);
+
+-- Visita 2
+INSERT INTO VISITAS (
+    nombre, fecha_inicio, fecha_fin, cupo_maximo, idioma, tipo_visita, cod_empleado
+) VALUES (
+    'Arte Tropical Autoguiado',
+    TO_DATE('2025-06-05', 'YYYY-MM-DD'),
+    TO_DATE('2025-06-10', 'YYYY-MM-DD'),
+    0,
+    'Multilingüe',
+    'Autoguiada',
+    2
+);
+
+-- Visita 3
+INSERT INTO VISITAS (
+    nombre, fecha_inicio, fecha_fin, cupo_maximo, idioma, tipo_visita, cod_empleado
+) VALUES (
+    'Explora la Galería de Frutas',
+    TO_DATE('2025-06-12', 'YYYY-MM-DD'),
+    TO_DATE('2025-06-12', 'YYYY-MM-DD'),
+    25,
+    'Inglés',
+    'Guiada',
+    3
+);
+
+-- Visita 4
+INSERT INTO VISITAS (
+    nombre, fecha_inicio, fecha_fin, cupo_maximo, idioma, tipo_visita, cod_empleado
+) VALUES (
+    'Tour Virtual de FrutArte',
+    TO_DATE('2025-06-15', 'YYYY-MM-DD'),
+    TO_DATE('2025-06-15', 'YYYY-MM-DD'),
+    100,
+    'Español',
+    'Virtual',
+    1
+);
+
+-- Visita 5
+INSERT INTO VISITAS (
+    nombre, fecha_inicio, fecha_fin, cupo_maximo, idioma, tipo_visita, cod_empleado
+) VALUES (
+    'Visita Libre a la Exposición Tropical',
+    TO_DATE('2025-06-20', 'YYYY-MM-DD'),
+    TO_DATE('2025-06-25', 'YYYY-MM-DD'),
+    50,
+    'Francés',
+    'Autoguiada',
+    3
+);

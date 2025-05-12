@@ -55,12 +55,19 @@ END pkg_autor;
 -- Cuerpo del paquete Autor
 CREATE OR REPLACE PACKAGE BODY pkg_autor AS
 
-  FUNCTION total_obras_autor(v_autor IN NUMBER) RETURN NUMBER IS v_total_obras NUMBER;
-  BEGIN
-      SELECT COUNT(*) INTO v_total_obras FROM Autor a JOIN OBRA_DE_ARTE o ON a.cod_autor = o.cod_autor WHERE v_autor = a.cod_autor;
+  CREATE OR REPLACE FUNCTION total_obras_autor(v_autor IN NUMBER) 
+RETURN NUMBER 
+IS 
+    v_total_obras NUMBER;
+BEGIN
+    SELECT COUNT(*) 
+    INTO v_total_obras 
+    FROM OBRAS 
+    WHERE cod_autor = v_autor;
 
-      RETURN v_total_obras;
-  END total_obras_autor;
+    RETURN v_total_obras;
+END total_obras_autor;
+/
 
 END pkg_autor;
 
@@ -103,6 +110,17 @@ CREATE OR REPLACE PACKAGE BODY pkg_visitas AS
           RETURN NULL;
   END obtener_plazas_disponibles;
   /
+
+CREATE OR REPLACE FUNCTION cantidad_visitas_por_mes(v_mes IN NUMBER, v_anno IN NUMBER) RETURN NUMBER IS v_total_visitas NUMBER;
+
+BEGIN
+    SELECT COUNT(*) INTO v_total_visitas FROM VISITA v JOIN ACTIVIDADES a ON v.cod_actividad = a.cod_actividad WHERE v.tipo = 'Guiada'
+    AND EXTRACT (MONTH FROM a.fecha_inicio) = v_mes;
+    AND EXTRACT (YEAR FROM a.fecha_inicio) = v_anno;
+
+    RETURN v_total_visitas;
+END;
+
 
 END pkg_visitas;
 
@@ -160,6 +178,7 @@ END pkg_contrato;
 CREATE OR REPLACE PACKAGE pkg_empleados IS
 
   PROCEDURE actualizar_estado_empleado(v_cod_empleado IN NUMBER, v_estado IN VARCHAR2);
+  PROCEDURE asignar_empleado_visita;
 
 END pkg_empleados;
 
@@ -224,6 +243,7 @@ CREATE OR REPLACE PACKAGE pkg_obras IS
         p_cod_autor         NUMBER
     ) RETURN NUMBER;
   FUNCTION total_obras_por_autor(v_autor IN NUMBER) RETURN NUMBER;
+  PROCEDURE cambiar_obra_sala(v_obra IN NUMBER, v_sala IN NUMBER);
 
 END pkg_obras;
 
