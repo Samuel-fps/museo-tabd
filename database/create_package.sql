@@ -53,25 +53,26 @@ CREATE OR REPLACE PACKAGE pkg_autor IS
   FUNCTION total_obras_autor(v_autor IN NUMBER) RETURN NUMBER;
 
 END pkg_autor;
+/
 
 -- Cuerpo del paquete Autor
 CREATE OR REPLACE PACKAGE BODY pkg_autor AS
 
-  CREATE OR REPLACE FUNCTION total_obras_autor(v_autor IN NUMBER) 
-RETURN NUMBER 
-IS 
-    v_total_obras NUMBER;
-BEGIN
-    SELECT COUNT(*) 
-    INTO v_total_obras 
-    FROM OBRAS 
-    WHERE cod_autor = v_autor;
-
-    RETURN v_total_obras;
-END total_obras_autor;
-/
+    FUNCTION total_obras_autor(v_autor IN NUMBER) 
+    RETURN NUMBER 
+    IS 
+        v_total_obras NUMBER;
+    BEGIN
+        SELECT COUNT(*) 
+        INTO v_total_obras 
+        FROM OBRAS 
+        WHERE cod_autor = v_autor;
+    
+        RETURN v_total_obras;
+    END total_obras_autor;
 
 END pkg_autor;
+/
 
 
 -- Paquete Visitas
@@ -111,10 +112,10 @@ CREATE OR REPLACE PACKAGE BODY pkg_visitas AS
           RETURN -1; -- No se encontró la visita
       WHEN OTHERS THEN
           RETURN NULL;
-  END obtener_plazas_disponibles;
+  END cantidad_plazas_disponibles;
 
 
-    CREATE OR REPLACE FUNCTION cantidad_visitas_por_mes(v_mes IN NUMBER, v_anno IN NUMBER) RETURN NUMBER IS v_total_visitas NUMBER;
+  FUNCTION cantidad_visitas_por_mes(v_mes IN NUMBER, v_anno IN NUMBER) RETURN NUMBER IS v_total_visitas NUMBER;
     
     BEGIN
         SELECT COUNT(*) INTO v_total_visitas FROM VISITA v JOIN ACTIVIDADES a ON v.cod_actividad = a.cod_actividad WHERE v.tipo = 'Guiada'
@@ -249,6 +250,7 @@ CREATE OR REPLACE PACKAGE pkg_obras IS
   PROCEDURE cambiar_obra_sala(v_obra IN NUMBER, v_sala IN NUMBER);
 
 END pkg_obras;
+/
 
 -- Cuerpo del paquete Obras
 CREATE OR REPLACE PACKAGE BODY pkg_obras AS
@@ -311,3 +313,4 @@ CREATE OR REPLACE PACKAGE BODY pkg_obras AS
   END cambiar_obra_sala;
 
 END pkg_obras;
+/
