@@ -200,3 +200,69 @@ INSERT INTO OBRAS (
     5,
     2
 );
+
+
+--INSERTAR DEPARTAMENTOS
+INSERT INTO DEPARTAMENTOS (nombre, descripcion, cod_encargado)
+VALUES ('Conservación', 'Se encarga del mantenimiento y preservación de las obras.', NULL);
+
+INSERT INTO DEPARTAMENTOS (nombre, descripcion, cod_encargado)
+VALUES ('Educación', 'Organiza visitas guiadas y programas educativos.', NULL);
+
+INSERT INTO DEPARTAMENTOS (nombre, descripcion, cod_encargado)
+VALUES ('Curaduría', 'Selecciona y organiza las exposiciones temporales.', NULL);
+
+INSERT INTO DEPARTAMENTOS (nombre, descripcion, cod_encargado)
+VALUES ('Administración', 'Gestiona los recursos humanos y financieros del museo.', NULL);
+
+INSERT INTO DEPARTAMENTOS (nombre, descripcion, cod_encargado)
+VALUES ('Tecnología', 'Gestiona los sistemas informáticos y la plataforma web.', NULL);
+
+
+--INSERTAR ROLES
+INSERT INTO ROLES (nombre, descripcion)
+VALUES ('Guía', 'Responsable de realizar visitas guiadas a los visitantes.');
+
+INSERT INTO ROLES (nombre, descripcion)
+VALUES ('Curador', 'Selecciona y organiza las obras para exposiciones.');
+
+INSERT INTO ROLES (nombre, descripcion)
+VALUES ('Administrador', 'Gestiona el sistema y los usuarios.');
+
+INSERT INTO ROLES (nombre, descripcion)
+VALUES ('Recepcionista', 'Atiende al público y gestiona la venta de entradas.');
+
+INSERT INTO ROLES (nombre, descripcion)
+VALUES ('Técnico de conservación', 'Supervisa el estado de las obras y su preservación.');
+
+
+--INSERT CONTRATOS
+INSERT INTO CONTRATOS (fecha_ini, fecha_fin, sueldo, jornada_laboral, estado)
+VALUES (TO_DATE('2023-01-10', 'YYYY-MM-DD'), TO_DATE('2024-01-10', 'YYYY-MM-DD'), 18000.00, 'Completa', 'Activo');
+
+INSERT INTO CONTRATOS (fecha_ini, fecha_fin, sueldo, jornada_laboral, estado)
+VALUES (TO_DATE('2022-05-01', 'YYYY-MM-DD'), NULL, 15000.00, 'Parcial', 'Activo');
+
+INSERT INTO CONTRATOS (fecha_ini, fecha_fin, sueldo, jornada_laboral, estado)
+VALUES (TO_DATE('2021-09-15', 'YYYY-MM-DD'), TO_DATE('2022-09-15', 'YYYY-MM-DD'), 22000.00, 'Completa', 'Inactivo');
+
+INSERT INTO CONTRATOS (fecha_ini, fecha_fin, sueldo, jornada_laboral, estado)
+VALUES (TO_DATE('2020-03-20', 'YYYY-MM-DD'), TO_DATE('2021-03-20', 'YYYY-MM-DD'), 16000.00, 'Parcial', 'Inactivo');
+
+INSERT INTO CONTRATOS (fecha_ini, fecha_fin, sueldo, jornada_laboral, estado)
+VALUES (TO_DATE('2024-02-01', 'YYYY-MM-DD'), NULL, 24000.00, 'Completa', 'Activo');
+
+INSERT INTO CONTRATOS (fecha_ini, fecha_fin, sueldo, jornada_laboral, estado)
+VALUES (TO_DATE('2023-07-10', 'YYYY-MM-DD'), TO_DATE('2024-07-10', 'YYYY-MM-DD'), 20000.00, 'Completa', 'Activo');
+
+INSERT INTO CONTRATOS (fecha_ini, fecha_fin, sueldo, jornada_laboral, estado)
+VALUES (TO_DATE('2022-11-01', 'YYYY-MM-DD'), TO_DATE('2023-11-01', 'YYYY-MM-DD'), 19000.00, 'Parcial', 'Inactivo');
+
+INSERT INTO CONTRATOS (fecha_ini, fecha_fin, sueldo, jornada_laboral, estado)
+VALUES (TO_DATE('2023-03-01', 'YYYY-MM-DD'), NULL, 25000.00, 'Completa', 'Activo');
+
+INSERT INTO CONTRATOS (fecha_ini, fecha_fin, sueldo, jornada_laboral, estado)
+VALUES (TO_DATE('2021-06-01', 'YYYY-MM-DD'), TO_DATE('2022-06-01', 'YYYY-MM-DD'), 17000.00, 'Parcial', 'Inactivo');
+
+INSERT INTO CONTRATOS (fecha_ini, fecha_fin, sueldo, jornada_laboral, estado)
+VALUES (TO_DATE('2024-01-01', 'YYYY-MM-DD'), NULL, 26000.00, 'Completa', 'Activo');
