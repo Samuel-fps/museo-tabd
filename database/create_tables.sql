@@ -221,7 +221,7 @@ CREATE TABLE ENTRADAS (
     cod_visita         NUMBER,
     cod_empleado       NUMBER,
 
-    CONSTRAINT fk_empleado 
+    CONSTRAINT fk_entrada_empleado1
         FOREIGN KEY (cod_empleado) REFERENCES EMPLEADOS(cod_empleado),
     
     CONSTRAINT chk_tipo CHECK (tipo IN ('Física', 'Online')),

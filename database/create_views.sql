@@ -23,3 +23,17 @@ JOIN DEPARTAMENTOS d ON e.cod_departamento = d.cod_departamento
 JOIN CONTRATOS c ON e.cod_contrato = c.cod_contrato
 LEFT JOIN ROLES_EMPLEADOS re ON e.cod_empleado = re.cod_empleado
 LEFT JOIN ROLES r ON re.cod_rol = r.cod_rol;
+
+
+--Vista autores detallada
+  CREATE OR REPLACE FORCE EDITIONABLE VIEW "AUTORES_DETALLADA" ("COD_AUTOR", "NOMBRE", "APELLIDOS", "PAIS_ORIGEN", "FECHA_NACIMIENTO", "FECHA_MUERTE", "NUM_OBRAS", "ESTILO") AS 
+  SELECT
+    a.cod_autor,
+    a.nombre.nombre AS nombre,
+    a.nombre.apellidos AS apellidos,
+    a.pais_origen,
+    a.fecha_nacimiento,
+    a.fecha_muerte,
+    total_obras_autor(a.cod_autor) AS num_obras,
+    a.estilo
+FROM AUTORES a;

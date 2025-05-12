@@ -1,3 +1,59 @@
+--trigger check visitas
+create or replace TRIGGER trg_check_visita_cupo
+BEFORE INSERT ON ENTRADAS
+FOR EACH ROW
+WHEN (NEW.cod_visita IS NOT NULL)
+DECLARE
+    v_total_entradas NUMBER;
+    v_cupo_maximo    NUMBER;
+BEGIN
+    -- Obtener el número de entradas ya registradas para la visita
+    SELECT COUNT(*) INTO v_total_entradas
+    FROM ENTRADAS
+    WHERE cod_visita = :NEW.cod_visita;
+
+    -- Obtener el cupo máximo permitido de la visita
+    SELECT cupo_maximo INTO v_cupo_maximo
+    FROM VISITAS
+    WHERE cod_visita = :NEW.cod_visita;
+
+    -- Verificar si se supera el cupo
+    IF v_total_entradas >= v_cupo_maximo THEN
+        RAISE_APPLICATION_ERROR(-20005, 'No se pueden asignar más entradas: la visita ha alcanzado su cupo máximo.');
+    END IF;
+END;
+/
+
+
+--registrar venta
+create or replace TRIGGER trg_registrar_venta
+BEFORE INSERT ON ENTRADAS
+FOR EACH ROW
+DECLARE
+    v_cod_venta VENTAS.cod_venta%TYPE;
+BEGIN
+    -- Registrar la fecha actual para la entrada
+    :NEW.fecha := SYSDATE;
+
+    -- Solo registrar venta si no se proporciona un cod_venta
+    IF :NEW.cod_venta IS NULL THEN
+        -- Validación: si la entrada es física, debe tener empleado asignado
+        IF :NEW.tipo = 'Física' AND :NEW.cod_empleado IS NULL THEN
+            RAISE_APPLICATION_ERROR(-20001, 'Las entradas físicas deben tener un empleado asignado.');
+        END IF;
+
+        -- Crear la venta
+        INSERT INTO VENTAS (fecha, cod_empleado)
+        VALUES (SYSDATE, :NEW.cod_empleado)
+        RETURNING cod_venta INTO v_cod_venta;
+
+        -- Asignar venta a la entrada (modificando la fila que se insertará)
+        :NEW.cod_venta := v_cod_venta;
+    END IF;
+END;
+/
+
+
 -- Archivo donde se contienen los triggers de la base de datos
 
 -- Eliminar los triggers si ya existen antes de crearlos para evitar errores
@@ -152,3 +208,6 @@ BEGIN
     WHERE cod_autor = :OLD.cod_autor;
 END trg_eliminar_obra;
 /
+
+
+
