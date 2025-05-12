@@ -217,7 +217,7 @@ CREATE TABLE ENTRADAS (
     fecha              DATE NOT NULL,
     tipo               VARCHAR2(20) NOT NULL,
     cod_cliente        NUMBER NOT NULL,
-    cod_venta          NUMBER NOT NULL,
+    cod_venta          NUMBER,
     cod_visita        NUMBER NOT NULL,
     
     CONSTRAINT chk_tipo CHECK (tipo IN ('Física', 'Online')),
