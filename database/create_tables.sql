@@ -293,6 +293,8 @@ CREATE TABLE OBRAS (
     imagen             BLOB,
     cod_sala           NUMBER NOT NULL,
     cod_autor          NUMBER NOT NULL,
+    MIME               VARCHAR2(50),
+    FILENAME           VARCHAR2(100),
 
     CONSTRAINT chk_tipo_obra CHECK (tipo IN ('Cuadro', 'Escultura', 'Fotografía', 'Alfarería')),
     CONSTRAINT chk_fecha_obra CHECK (fecha_creacion <= fecha_adquisicion),
