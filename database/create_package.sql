@@ -138,10 +138,10 @@ END pkg_entradas;
 CREATE OR REPLACE PACKAGE BODY pkg_entradas AS
 
     -- Devuelve el numer de entradas vendidas en un periodo de tiempo.
-  CREATE OR REPLACE FUNCTION total_entradas_vendidas_por_fecha (
+  FUNCTION total_entradas_vendidas_por_fecha (
       fecha_ini IN DATE,
       fecha_fin IN DATE
-  ) IS total_entradas NUMBER;
+  ) RETURN NUMBER IS;
   BEGIN
       SELECT COUNT(*) INTO total_entradas
       FROM ENTRADAS
