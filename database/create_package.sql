@@ -79,12 +79,13 @@ CREATE OR REPLACE PACKAGE pkg_visitas IS
   FUNCTION cantidad_plazas_disponibles(cod_visita IN NUMBER) RETURN NUMBER;
 
 END pkg_visitas;
+/
 
 -- Cuerpo del paquete Visitas
 CREATE OR REPLACE PACKAGE BODY pkg_visitas AS
 
   -- Devuelve el número de plazas disponibles para una visita
-  CREATE OR REPLACE FUNCTION cantidad_plazas_disponibles(cod_visita IN NUMBER) 
+  FUNCTION cantidad_plazas_disponibles(cod_visita IN NUMBER) 
   RETURN NUMBER 
   IS
       v_cupo_maximo    NUMBER;
@@ -109,20 +110,19 @@ CREATE OR REPLACE PACKAGE BODY pkg_visitas AS
       WHEN OTHERS THEN
           RETURN NULL;
   END obtener_plazas_disponibles;
-  /
-
-CREATE OR REPLACE FUNCTION cantidad_visitas_por_mes(v_mes IN NUMBER, v_anno IN NUMBER) RETURN NUMBER IS v_total_visitas NUMBER;
-
-BEGIN
-    SELECT COUNT(*) INTO v_total_visitas FROM VISITA v JOIN ACTIVIDADES a ON v.cod_actividad = a.cod_actividad WHERE v.tipo = 'Guiada'
-    AND EXTRACT (MONTH FROM a.fecha_inicio) = v_mes;
-    AND EXTRACT (YEAR FROM a.fecha_inicio) = v_anno;
-
-    RETURN v_total_visitas;
-END;
 
 
+    CREATE OR REPLACE FUNCTION cantidad_visitas_por_mes(v_mes IN NUMBER, v_anno IN NUMBER) RETURN NUMBER IS v_total_visitas NUMBER;
+    
+    BEGIN
+        SELECT COUNT(*) INTO v_total_visitas FROM VISITA v JOIN ACTIVIDADES a ON v.cod_actividad = a.cod_actividad WHERE v.tipo = 'Guiada'
+        AND EXTRACT (MONTH FROM a.fecha_inicio) = v_mes;
+        AND EXTRACT (YEAR FROM a.fecha_inicio) = v_anno;
+    
+        RETURN v_total_visitas;
+    END;
 END pkg_visitas;
+/
 
 -- Paquete Entradas
 CREATE OR REPLACE PACKAGE pkg_entradas IS
