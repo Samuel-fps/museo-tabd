@@ -210,6 +210,28 @@ CREATE TABLE VENTAS (
         FOREIGN KEY (cod_empleado) REFERENCES EMPLEADOS(cod_empleado)
 );
 
+-- Tabla de visitas
+CREATE TABLE VISITAS (
+    cod_visita   NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    nombre          VARCHAR2(100) NOT NULL,
+    fecha_inicio    DATE NOT NULL,
+    fecha_fin       DATE NOT NULL,
+    cupo_maximo        NUMBER,
+    idioma             VARCHAR2(50),
+    tipo_visita               VARCHAR2(20),
+    cod_empleado        NUMBER,
+    
+
+     CONSTRAINT chk_tipo_visita CHECK (tipo_visita IN ('Guiada', 'Autoguiada', 'Virtual')),
+    CONSTRAINT chk_fecha_visita CHECK (fecha_inicio <= fecha_fin),
+    CONSTRAINT chk_cupo CHECK (cupo_maximo >= 0),
+
+    CONSTRAINT fk_visita_empleado
+        FOREIGN KEY (cod_empleado) REFERENCES EMPLEADOS(cod_empleado)
+
+
+);
+
 -- Tabla de entradas
 CREATE TABLE ENTRADAS (
     cod_entrada        NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -233,28 +255,6 @@ CREATE TABLE ENTRADAS (
         FOREIGN KEY (cod_venta) REFERENCES VENTAS(cod_venta),
     CONSTRAINT fk_visita
         FOREIGN KEY (cod_visita) REFERENCES VISITAS(cod_visita)
-);
-
--- Tabla de visitas
-CREATE TABLE VISITAS (
-    cod_visita   NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    nombre          VARCHAR2(100) NOT NULL,
-    fecha_inicio    DATE NOT NULL,
-    fecha_fin       DATE NOT NULL,
-    cupo_maximo        NUMBER,
-    idioma             VARCHAR2(50),
-    tipo_visita               VARCHAR2(20),
-    cod_empleado        NUMBER,
-    
-
-     CONSTRAINT chk_tipo_visita CHECK (tipo_visita IN ('Guiada', 'Autoguiada', 'Virtual')),
-    CONSTRAINT chk_fecha_visita CHECK (fecha_inicio <= fecha_fin),
-    CONSTRAINT chk_cupo CHECK (cupo_maximo >= 0),
-
-    CONSTRAINT fk_visita_empleado
-        FOREIGN KEY (cod_empleado) REFERENCES EMPLEADOS(cod_empleado)
-
-
 );
 
 -- Tabla de exposiciones

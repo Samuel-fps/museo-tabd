@@ -21,7 +21,7 @@ CREATE OR REPLACE PACKAGE BODY pkg_ventas AS
       END IF;
 
       -- Inserta la venta
-      INSERT INTO VENTA (fecha, cod_empleado) VALUES (SYSDATE, v_empleado) RETURNING cod_venta INTO v_venta_id;
+      INSERT INTO VENTAS (fecha, cod_empleado) VALUES (SYSDATE, v_empleado) RETURNING cod_venta INTO v_venta_id;
 
       -- Asignar la entrada a la venta
       UPDATE entradas SET cod_venta = v_venta_id WHERE cod_entrada = v_entrada;
@@ -130,8 +130,8 @@ END pkg_visitas;
 -- Paquete Entradas
 CREATE OR REPLACE PACKAGE pkg_entradas IS
 
-  PROCEDURE total_entradas_vendidas_por_fecha(v_fecha IN DATE, v_total OUT NUMBER);
-
+  FUNCTION total_entradas_vendidas_por_fecha (fecha_ini IN DATE, fecha_fin IN DATE) RETURN NUMBER;
+  
 END pkg_entradas;
 /
 
@@ -142,7 +142,8 @@ CREATE OR REPLACE PACKAGE BODY pkg_entradas AS
   FUNCTION total_entradas_vendidas_por_fecha (
       fecha_ini IN DATE,
       fecha_fin IN DATE
-  ) RETURN NUMBER IS;
+  ) RETURN NUMBER IS
+    total_entradas NUMBER;
   BEGIN
       SELECT COUNT(*) INTO total_entradas
       FROM ENTRADAS
@@ -152,7 +153,7 @@ CREATE OR REPLACE PACKAGE BODY pkg_entradas AS
   EXCEPTION
       WHEN OTHERS THEN
           DBMS_OUTPUT.PUT_LINE('Error al calcular las entradas: ' || SQLERRM);
-  END;
+  END total_entradas_vendidas_por_fecha;
 
 END pkg_entradas;
 /
@@ -168,23 +169,22 @@ END pkg_contrato;
 -- Cuerpo del paquete Contrato
 CREATE OR REPLACE PACKAGE BODY pkg_contrato AS
 
-  PROCEDURE actualizar_estado_contratos AS
-      BEGIN
-          UPDATE CONTRATO
-          SET estado = 'Inactivo'
-          WHERE fecha_fin IS NOT NULL;
-      END;
+  PROCEDURE actualizar_estado_contratos IS
+  BEGIN
+      UPDATE CONTRATOS
+      SET estado = 'Inactivo'
+      WHERE fecha_fin IS NOT NULL;
   END actualizar_estado_contratos;
 
 END pkg_contrato;
 /
 
+
 -- Paquete Empleados
 CREATE OR REPLACE PACKAGE pkg_empleados IS
 
-  PROCEDURE actualizar_estado_empleado(v_cod_empleado IN NUMBER, v_estado IN VARCHAR2);
-  PROCEDURE asignar_empleado_visita;
-
+  PROCEDURE asignar_empleado_visita(p_cod_visita IN NUMBER, p_cod_empleado IN NUMBER);
+  
 END pkg_empleados;
 /
 
@@ -192,8 +192,8 @@ END pkg_empleados;
 CREATE OR REPLACE PACKAGE BODY pkg_empleados AS
 
   PROCEDURE asignar_empleado_visita (
-    p_cod_visita IN ACTIVIDADES.cod_visita%TYPE,
-    p_id_empleado IN EMPLEADO.cod_empleado%TYPE
+    p_cod_visita IN VISITAS.cod_visita%TYPE,
+    p_cod_empleado IN EMPLEADOS.cod_empleado%TYPE
   )
   IS
       v_exists NUMBER;
@@ -216,7 +216,7 @@ CREATE OR REPLACE PACKAGE BODY pkg_empleados AS
           RAISE_APPLICATION_ERROR(-20002, 'El empleado no existe.');
       END IF;
 
-      -- Asignar el empleado a la actividad
+      -- Asignar el empleado a la VISITA
       UPDATE VISITAS
       SET cod_empleado = p_cod_empleado
       WHERE cod_visita = p_cod_visita;
@@ -227,7 +227,7 @@ CREATE OR REPLACE PACKAGE BODY pkg_empleados AS
       WHEN OTHERS THEN
           ROLLBACK;
           RAISE_APPLICATION_ERROR(-20003, 'Error al asignar el empleado: ' || SQLERRM);
-  END;
+  END asignar_empleado_visita;
 
 END pkg_empleados;
 /
@@ -257,7 +257,7 @@ END pkg_obras;
 CREATE OR REPLACE PACKAGE BODY pkg_obras AS
 
   -- Registra una nueva obra
-  CREATE OR REPLACE FUNCTION registrar_obra (
+  FUNCTION registrar_obra (
     p_nombre            IN OBRAS.nombre%TYPE,
     p_descripcion       IN OBRAS.descripcion%TYPE,
     p_fecha_creacion    IN OBRAS.fecha_creacion%TYPE,
