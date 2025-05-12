@@ -6,11 +6,12 @@ CREATE OR REPLACE PACKAGE pkg_ventas IS
     FUNCTION entradas_vendidas_mes(p_mes IN NUMBER, p_anio IN NUMBER) RETURN NUMBER;
 
 END pkg_ventas;
+/
 
 -- Cuerpo del paquete ventas
 CREATE OR REPLACE PACKAGE BODY pkg_ventas AS
 
-  PROCEDURE registrar_venta (v_cliente IN NUMBER, v_empleado IN NUMBER, v_entrada IN NUMBER) IS v_venta_id NUMBER, v_estado NUMBER;
+  PROCEDURE registrar_venta (v_cliente IN NUMBER, v_empleado IN NUMBER, v_entrada IN NUMBER) IS v_venta_id NUMBER; v_estado NUMBER;
   BEGIN
       -- Comprueba que la entrada esté disponible
       SELECT COUNT(*) INTO v_estado FROM ENTRADAS WHERE cod_entrada = v_entrada AND cod_venta IS NOT NULL;
@@ -29,7 +30,7 @@ CREATE OR REPLACE PACKAGE BODY pkg_ventas AS
   END;
 
   -- Devulve el número de entradas vendidas en un mes y año específicos
-  CREATE OR REPLACE FUNCTION entradas_vendidas_mes(p_mes IN NUMBER, p_anio IN NUMBER) 
+  FUNCTION entradas_vendidas_mes(p_mes IN NUMBER, p_anio IN NUMBER)
   RETURN NUMBER IS
     v_num_entradas NUMBER;
   BEGIN
@@ -44,6 +45,7 @@ CREATE OR REPLACE PACKAGE BODY pkg_ventas AS
   END entradas_vendidas_mes;
 
 END pkg_ventas;
+/
 
 -- Paquete Autor
 CREATE OR REPLACE PACKAGE pkg_autor IS
