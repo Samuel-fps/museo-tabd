@@ -171,6 +171,7 @@ END pkg_contrato;
 CREATE OR REPLACE PACKAGE pkg_empleados IS
 
   PROCEDURE actualizar_estado_empleado(v_cod_empleado IN NUMBER, v_estado IN VARCHAR2);
+  PROCEDURE asignar_empleado_visita;
 
 END pkg_empleados;
 
@@ -235,6 +236,7 @@ CREATE OR REPLACE PACKAGE pkg_obras IS
         p_cod_autor         NUMBER
     ) RETURN NUMBER;
   FUNCTION total_obras_por_autor(v_autor IN NUMBER) RETURN NUMBER;
+  PROCEDURE cambiar_obra_sala(v_obra IN NUMBER, v_sala IN NUMBER);
 
 END pkg_obras;
 
