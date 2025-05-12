@@ -133,6 +133,7 @@ CREATE OR REPLACE PACKAGE pkg_entradas IS
   PROCEDURE total_entradas_vendidas_por_fecha(v_fecha IN DATE, v_total OUT NUMBER);
 
 END pkg_entradas;
+/
 
 -- Cuerpo del paquete Entradas
 CREATE OR REPLACE PACKAGE BODY pkg_entradas AS
@@ -152,9 +153,9 @@ CREATE OR REPLACE PACKAGE BODY pkg_entradas AS
       WHEN OTHERS THEN
           DBMS_OUTPUT.PUT_LINE('Error al calcular las entradas: ' || SQLERRM);
   END;
-  /
 
 END pkg_entradas;
+/
 
 --Paquete Contrato
 CREATE OR REPLACE PACKAGE pkg_contrato IS
@@ -162,6 +163,7 @@ CREATE OR REPLACE PACKAGE pkg_contrato IS
   PROCEDURE actualizar_estado_contratos;
 
 END pkg_contrato;
+/
 
 -- Cuerpo del paquete Contrato
 CREATE OR REPLACE PACKAGE BODY pkg_contrato AS
@@ -226,10 +228,9 @@ CREATE OR REPLACE PACKAGE BODY pkg_empleados AS
           ROLLBACK;
           RAISE_APPLICATION_ERROR(-20003, 'Error al asignar el empleado: ' || SQLERRM);
   END;
-  /
-
 
 END pkg_empleados;
+/
 
 -- Paquete Obras
 CREATE OR REPLACE PACKAGE pkg_obras IS
