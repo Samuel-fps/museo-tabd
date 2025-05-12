@@ -246,23 +246,158 @@ VALUES (TO_DATE('2022-05-01', 'YYYY-MM-DD'), NULL, 15000.00, 'Parcial', 'Activo'
 INSERT INTO CONTRATOS (fecha_ini, fecha_fin, sueldo, jornada_laboral, estado)
 VALUES (TO_DATE('2021-09-15', 'YYYY-MM-DD'), TO_DATE('2022-09-15', 'YYYY-MM-DD'), 22000.00, 'Completa', 'Inactivo');
 
-INSERT INTO CONTRATOS (fecha_ini, fecha_fin, sueldo, jornada_laboral, estado)
-VALUES (TO_DATE('2020-03-20', 'YYYY-MM-DD'), TO_DATE('2021-03-20', 'YYYY-MM-DD'), 16000.00, 'Parcial', 'Inactivo');
 
-INSERT INTO CONTRATOS (fecha_ini, fecha_fin, sueldo, jornada_laboral, estado)
-VALUES (TO_DATE('2024-02-01', 'YYYY-MM-DD'), NULL, 24000.00, 'Completa', 'Activo');
+--INSERT EMPLEADOS
+INSERT INTO EMPLEADOS (
+    nombre, fecha_nacimiento, telefonos, direccion, email, cod_contrato, cod_departamento
+) VALUES (
+    TipoNombre('Laura', 'Emperatriz'), 
+    TO_DATE('1990-04-10', 'YYYY-MM-DD'), 
+    TipoListaTelefonos('611223344'), 
+    TipoDireccion('Calle Prado', 'Madrid', 'Madrid', '28014'), 
+    'laura.marquez@museo.com', 
+    1, 1
+);
 
-INSERT INTO CONTRATOS (fecha_ini, fecha_fin, sueldo, jornada_laboral, estado)
-VALUES (TO_DATE('2023-07-10', 'YYYY-MM-DD'), TO_DATE('2024-07-10', 'YYYY-MM-DD'), 20000.00, 'Completa', 'Activo');
+INSERT INTO EMPLEADOS (
+    nombre, fecha_nacimiento, telefonos, direccion, email, cod_contrato, cod_departamento
+) VALUES (
+    TipoNombre('Carlos', 'Reyes'), 
+    TO_DATE('1985-11-25', 'YYYY-MM-DD'), 
+    TipoListaTelefonos('622334455'), 
+    TipoDireccion('Avenida del Arte', 'Sevilla', 'Sevilla', '41001'), 
+    'carlos.reyes@museo.com', 
+    2, 1
+);
 
-INSERT INTO CONTRATOS (fecha_ini, fecha_fin, sueldo, jornada_laboral, estado)
-VALUES (TO_DATE('2022-11-01', 'YYYY-MM-DD'), TO_DATE('2023-11-01', 'YYYY-MM-DD'), 19000.00, 'Parcial', 'Inactivo');
+INSERT INTO EMPLEADOS (
+    nombre, fecha_nacimiento, telefonos, direccion, email, cod_contrato, cod_departamento
+) VALUES (
+    TipoNombre('Paconi', 'Santos'), 
+    TO_DATE('1992-07-19', 'YYYY-MM-DD'), 
+    TipoListaTelefonos('633445566'), 
+    TipoDireccion('Calle de las Artes', 'Valencia', 'Valencia', '46001'), 
+    'paconi.santos@museo.com', 
+    3, 2
+);
 
-INSERT INTO CONTRATOS (fecha_ini, fecha_fin, sueldo, jornada_laboral, estado)
-VALUES (TO_DATE('2023-03-01', 'YYYY-MM-DD'), NULL, 25000.00, 'Completa', 'Activo');
 
-INSERT INTO CONTRATOS (fecha_ini, fecha_fin, sueldo, jornada_laboral, estado)
-VALUES (TO_DATE('2021-06-01', 'YYYY-MM-DD'), TO_DATE('2022-06-01', 'YYYY-MM-DD'), 17000.00, 'Parcial', 'Inactivo');
+--INSERT ROLES-EMPLEADOS
+INSERT INTO ROLES_EMPLEADOS (cod_rol, cod_empleado) VALUES (1, 1);
+INSERT INTO ROLES_EMPLEADOS (cod_rol, cod_empleado) VALUES (2, 2); 
+INSERT INTO ROLES_EMPLEADOS (cod_rol, cod_empleado) VALUES (3, 3); 
 
-INSERT INTO CONTRATOS (fecha_ini, fecha_fin, sueldo, jornada_laboral, estado)
-VALUES (TO_DATE('2024-01-01', 'YYYY-MM-DD'), NULL, 26000.00, 'Completa', 'Activo');
+
+
+--INSERT CLIENTES
+INSERT INTO CLIENTES (
+    nombre, fecha_nacimiento, telefonos, email
+) VALUES (
+    TipoNombre('Andrés', 'Gómez'),
+    TO_DATE('1980-03-15', 'YYYY-MM-DD'),
+    TipoListaTelefonos('600111222'),
+    'andres.gomez@email.com'
+);
+
+INSERT INTO CLIENTES (
+    nombre, fecha_nacimiento, telefonos, email
+) VALUES (
+    TipoNombre('Marta', 'Ruiz'),
+    TO_DATE('1995-08-21', 'YYYY-MM-DD'),
+    TipoListaTelefonos('600222333'),
+    'marta.ruiz@email.com'
+);
+
+INSERT INTO CLIENTES (
+    nombre, fecha_nacimiento, telefonos, email
+) VALUES (
+    TipoNombre('Javier', 'López'),
+    TO_DATE('1978-12-02', 'YYYY-MM-DD'),
+    TipoListaTelefonos('600333444'),
+    'javier.lopez@email.com'
+);
+
+INSERT INTO CLIENTES (
+    nombre, fecha_nacimiento, telefonos, email
+) VALUES (
+    TipoNombre('María', 'Fernández'),
+    TO_DATE('1988-06-30', 'YYYY-MM-DD'),
+    TipoListaTelefonos('600444555'),
+    'lucia.fernandez@email.com'
+);
+
+INSERT INTO CLIENTES (
+    nombre, fecha_nacimiento, telefonos, email
+) VALUES (
+    TipoNombre('Pedro', 'Pedro Pe'),
+    TO_DATE('1990-09-10', 'YYYY-MM-DD'),
+    TipoListaTelefonos('600555666'),
+    'pedro.pe@email.com'
+);
+
+
+--INSERT VISITAS
+-- Visita 1
+INSERT INTO VISITAS (
+    nombre, fecha_inicio, fecha_fin, cupo_maximo, idioma, tipo_visita, cod_empleado
+) VALUES (
+    'Recorrido Frutal Histórico',
+    TO_DATE('2025-06-01', 'YYYY-MM-DD'),
+    TO_DATE('2025-06-01', 'YYYY-MM-DD'),
+    30,
+    'Español',
+    'Guiada',
+    1
+);
+
+-- Visita 2
+INSERT INTO VISITAS (
+    nombre, fecha_inicio, fecha_fin, cupo_maximo, idioma, tipo_visita, cod_empleado
+) VALUES (
+    'Arte Tropical Autoguiado',
+    TO_DATE('2025-06-05', 'YYYY-MM-DD'),
+    TO_DATE('2025-06-10', 'YYYY-MM-DD'),
+    0,
+    'Multilingüe',
+    'Autoguiada',
+    2
+);
+
+-- Visita 3
+INSERT INTO VISITAS (
+    nombre, fecha_inicio, fecha_fin, cupo_maximo, idioma, tipo_visita, cod_empleado
+) VALUES (
+    'Explora la Galería de Frutas',
+    TO_DATE('2025-06-12', 'YYYY-MM-DD'),
+    TO_DATE('2025-06-12', 'YYYY-MM-DD'),
+    25,
+    'Inglés',
+    'Guiada',
+    3
+);
+
+-- Visita 4
+INSERT INTO VISITAS (
+    nombre, fecha_inicio, fecha_fin, cupo_maximo, idioma, tipo_visita, cod_empleado
+) VALUES (
+    'Tour Virtual de FrutArte',
+    TO_DATE('2025-06-15', 'YYYY-MM-DD'),
+    TO_DATE('2025-06-15', 'YYYY-MM-DD'),
+    100,
+    'Español',
+    'Virtual',
+    1
+);
+
+-- Visita 5
+INSERT INTO VISITAS (
+    nombre, fecha_inicio, fecha_fin, cupo_maximo, idioma, tipo_visita, cod_empleado
+) VALUES (
+    'Visita Libre a la Exposición Tropical',
+    TO_DATE('2025-06-20', 'YYYY-MM-DD'),
+    TO_DATE('2025-06-25', 'YYYY-MM-DD'),
+    50,
+    'Francés',
+    'Autoguiada',
+    3
+);

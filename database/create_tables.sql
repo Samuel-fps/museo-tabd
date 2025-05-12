@@ -218,7 +218,7 @@ CREATE TABLE ENTRADAS (
     tipo               VARCHAR2(20) NOT NULL,
     cod_cliente        NUMBER NOT NULL,
     cod_venta          NUMBER,
-    cod_visita        NUMBER NOT NULL,
+    cod_visita         NUMBER,
     
     CONSTRAINT chk_tipo CHECK (tipo IN ('Física', 'Online')),
     CONSTRAINT chk_precio CHECK (precio > 0),
@@ -240,11 +240,15 @@ CREATE TABLE VISITAS (
     cupo_maximo        NUMBER,
     idioma             VARCHAR2(50),
     tipo_visita               VARCHAR2(20),
+    cod_empleado        NUMBER,
     
 
      CONSTRAINT chk_tipo_visita CHECK (tipo_visita IN ('Guiada', 'Autoguiada', 'Virtual')),
     CONSTRAINT chk_fecha_visita CHECK (fecha_inicio <= fecha_fin),
-    CONSTRAINT chk_cupo CHECK (cupo_maximo >= 0)
+    CONSTRAINT chk_cupo CHECK (cupo_maximo >= 0),
+
+    CONSTRAINT fk_visita_empleado
+        FOREIGN KEY (cod_empleado) REFERENCES EMPLEADOS(cod_empleado)
 
 
 );
@@ -259,13 +263,17 @@ CREATE TABLE EXPOSICIONES (
     numero_obras       NUMBER,
     tipo_exposicion    VARCHAR2(20),
     cod_sala           NUMBER NOT NULL,
+    cod_empleado       NUMBER,
 
     CONSTRAINT chk_tipo_expo CHECK (tipo_exposicion IN ('Online', 'Física')),
     CONSTRAINT chk_fecha_expo CHECK (fecha_inicio <= fecha_fin),
     CONSTRAINT chk_numero_obras CHECK (numero_obras >= 0),
 
     CONSTRAINT fk_sala 
-        FOREIGN KEY (cod_sala) REFERENCES SALAS(cod_sala)
+        FOREIGN KEY (cod_sala) REFERENCES SALAS(cod_sala),
+
+    CONSTRAINT fk_exposiciones_empleado
+        FOREIGN KEY (cod_empleado) REFERENCES EMPLEADOS(cod_empleado)
 );
 
 -- Tabla de obras de arte
@@ -296,27 +304,7 @@ CREATE TABLE OBRAS (
 
 -- TABLA DE RELACIÓN
 
--- Empleado_Visita N-M
-CREATE TABLE EMPLEADOS_VISITAS (
-    cod_empleado    NUMBER NOT NULL,
-    cod_visita      NUMBER  NOT NULL,
-    fecha_asignacion DATE DEFAULT SYSDATE,
-    
-    PRIMARY KEY (cod_empleado, cod_visita),
-    FOREIGN KEY (cod_empleado) REFERENCES EMPLEADOS(cod_empleado),
-    FOREIGN KEY (cod_visita) REFERENCES VISITAS(cod_visita)
-);
 
--- Empleado_Exposicion N-M
-CREATE TABLE EMPLEADOS_EXPOSICIONES (
-    cod_empleado    NUMBER NOT NULL,
-    cod_exposicion  NUMBER NOT NULL,
-    fecha_asignacion DATE DEFAULT SYSDATE,
-    
-    PRIMARY KEY (cod_empleado, cod_exposicion),
-    FOREIGN KEY (cod_empleado) REFERENCES EMPLEADOS(cod_empleado),
-    FOREIGN KEY (cod_exposicion) REFERENCES EXPOSICIONES(cod_exposicion)
-);
 
 -- Sala_Actividad N-M
 CREATE TABLE SALAS_EXPOSICIONES (

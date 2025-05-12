@@ -55,12 +55,19 @@ END pkg_autor;
 -- Cuerpo del paquete Autor
 CREATE OR REPLACE PACKAGE BODY pkg_autor AS
 
-  FUNCTION total_obras_autor(v_autor IN NUMBER) RETURN NUMBER IS v_total_obras NUMBER;
-  BEGIN
-      SELECT COUNT(*) INTO v_total_obras FROM Autor a JOIN OBRA_DE_ARTE o ON a.cod_autor = o.cod_autor WHERE v_autor = a.cod_autor;
+  CREATE OR REPLACE FUNCTION total_obras_autor(v_autor IN NUMBER) 
+RETURN NUMBER 
+IS 
+    v_total_obras NUMBER;
+BEGIN
+    SELECT COUNT(*) 
+    INTO v_total_obras 
+    FROM OBRAS 
+    WHERE cod_autor = v_autor;
 
-      RETURN v_total_obras;
-  END total_obras_autor;
+    RETURN v_total_obras;
+END total_obras_autor;
+/
 
 END pkg_autor;
 
