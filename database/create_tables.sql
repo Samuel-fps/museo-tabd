@@ -204,7 +204,7 @@ CREATE TABLE CLIENTES (
 CREATE TABLE VENTAS (
     cod_venta          NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     fecha              DATE DEFAULT SYSDATE NOT NULL,
-    cod_empleado       NUMBER NOT NULL,
+    cod_empleado       NUMBER,
 
     CONSTRAINT fk_empleado 
         FOREIGN KEY (cod_empleado) REFERENCES EMPLEADOS(cod_empleado)
