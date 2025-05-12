@@ -219,6 +219,10 @@ CREATE TABLE ENTRADAS (
     cod_cliente        NUMBER NOT NULL,
     cod_venta          NUMBER,
     cod_visita         NUMBER,
+    cod_empleado       NUMBER,
+
+    CONSTRAINT fk_empleado 
+        FOREIGN KEY (cod_empleado) REFERENCES EMPLEADOS(cod_empleado),
     
     CONSTRAINT chk_tipo CHECK (tipo IN ('Física', 'Online')),
     CONSTRAINT chk_precio CHECK (precio > 0),
@@ -305,15 +309,6 @@ CREATE TABLE OBRAS (
 -- TABLA DE RELACIÓN
 
 
-
--- Sala_Actividad N-M
-CREATE TABLE SALAS_EXPOSICIONES (
-    cod_sala        NUMBER NOT NULL,
-    cod_exposicion  NUMBER NOT NULL,
-    PRIMARY KEY (cod_sala, cod_exposicion),
-    FOREIGN KEY (cod_sala) REFERENCES SALAS(cod_sala),
-    FOREIGN KEY (cod_exposicion) REFERENCES EXPOSICIONES(cod_exposicion)
-);
 
 -- Rol_Empleado N-M
 CREATE TABLE ROLES_EMPLEADOS (
