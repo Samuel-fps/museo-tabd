@@ -401,3 +401,31 @@ INSERT INTO VISITAS (
     'Autoguiada',
     3
 );
+
+
+-- 10 INSERTS en ENTRADAS
+INSERT INTO ENTRADAS (precio, fecha, tipo, cod_cliente, cod_visita, cod_empleado)
+VALUES (12.50, SYSDATE, 'Física', 1, 1, 1);
+
+
+
+INSERT INTO ENTRADAS (precio, fecha, tipo, cod_cliente, cod_visita, cod_empleado)
+VALUES (15.75, SYSDATE, 'Física', 3, 4, 2);
+
+
+
+INSERT INTO ENTRADAS (precio, fecha, tipo, cod_cliente, cod_visita, cod_empleado)
+VALUES (13.25, SYSDATE, 'Física', 5, 1, 3);
+
+
+
+INSERT INTO ENTRADAS (precio, fecha, tipo, cod_cliente, cod_visita, cod_empleado)
+VALUES (11.00, SYSDATE, 'Física', 2, 3, 3);
+
+INSERT INTO ENTRADAS (precio, fecha, tipo, cod_cliente, cod_visita, cod_empleado)
+VALUES (14.99, SYSDATE, 'Física', 3, 3, 2);
+
+
+
+INSERT INTO ENTRADAS (precio, fecha, tipo, cod_cliente, cod_visita, cod_empleado)
+VALUES (12.00, SYSDATE, 'Física', 5, 2, 2);
