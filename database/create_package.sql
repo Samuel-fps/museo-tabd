@@ -104,7 +104,7 @@ CREATE OR REPLACE PACKAGE BODY pkg_visitas AS
       FROM ENTRADAS WHERE cod_visita = cod_visita;
 
       -- Calcular las plazas disponibles
-      plazas_disponibles := cupo_maximo - entradas_reservadas;
+      plazas_disponibles := v_cupo_maximo - entradas_reservadas;
 
       RETURN plazas_disponibles;
   EXCEPTION
@@ -115,15 +115,15 @@ CREATE OR REPLACE PACKAGE BODY pkg_visitas AS
   END cantidad_plazas_disponibles;
 
 
-  FUNCTION cantidad_visitas_por_mes(v_mes IN NUMBER, v_anno IN NUMBER) RETURN NUMBER IS v_total_visitas NUMBER;
+  FUNCTION cantidad_visitas_mes(v_mes IN NUMBER, v_anno IN NUMBER) RETURN NUMBER IS v_total_visitas NUMBER;
     
     BEGIN
-        SELECT COUNT(*) INTO v_total_visitas FROM VISITA v JOIN ACTIVIDADES a ON v.cod_actividad = a.cod_actividad WHERE v.tipo = 'Guiada'
-        AND EXTRACT (MONTH FROM a.fecha_inicio) = v_mes;
+        SELECT COUNT(*) INTO v_total_visitas FROM VISITAS v JOIN VISITAS a ON v.cod_visita = a.cod_visita WHERE
+        EXTRACT (MONTH FROM a.fecha_inicio) = v_mes
         AND EXTRACT (YEAR FROM a.fecha_inicio) = v_anno;
     
         RETURN v_total_visitas;
-    END;
+    END cantidad_visitas_mes;
 END pkg_visitas;
 /
 
